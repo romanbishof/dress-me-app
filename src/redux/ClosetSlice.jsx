@@ -1,0 +1,78 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const getClosetDataAsync = createAsyncThunk(
+  "closet/getClothesAsync",
+  async () => {
+    const storedData = localStorage.getItem("closetData");
+    let res;
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      res = await axios.get(
+        `https://run.mocky.io/v3/2d06d2c1-5a77-4ecd-843a-53247bcb0b94`
+      );
+      const newData = res.data;
+      // Compare the fetched data with the stored data
+      if (JSON.stringify(newData) !== JSON.stringify(parsedData)) {
+        // Update local storage with new data
+        localStorage.setItem("closetData", JSON.stringify(newData));
+      }
+      return newData;
+    } else {
+      res = await axios.get(
+        `https://run.mocky.io/v3/2d06d2c1-5a77-4ecd-843a-53247bcb0b94`
+      );
+      const data = res.data;
+      // Save initial data in local storage
+      localStorage.setItem("closetData", JSON.stringify(data));
+      return data;
+    }
+  }
+);
+
+const countClothes = (data, type) => {
+  return data.reduce((count, item) => {
+    if (item.type === type) {
+      return count + 1;
+    }
+    return count;
+  }, 0);
+};
+
+const initialValues = {
+  data: [],
+  shirts: 0,
+  pants: 0,
+  shoes: 0,
+  shirtsArray: [],
+  pantsArray: [],
+  shoesArray: [],
+  lengthOfData: 0,
+  shirtSelected: true,
+  pantsSelected: true,
+  shoesSelected: true,
+};
+
+const ClosetDataSlice = createSlice({
+  name: "ClosetData",
+  initialState: initialValues,
+  reducers: {},
+  extraReducers: {
+    [getClosetDataAsync.fulfilled]: (state, action) => {
+      state.data = action.payload;
+      state.shirts = countClothes(action.payload, "shirt");
+      state.pants = countClothes(action.payload, "pants");
+      state.shoes = countClothes(action.payload, "shoes");
+      state.shirtsArray = action.payload.filter(
+        (item) => item.type === "shirt"
+      );
+      state.pantsArray = action.payload.filter((item) => item.type === "pants");
+      state.shoesArray = action.payload.filter((item) => item.type === "shoes");
+      state.lengthOfData = action.payload.length;
+    },
+  },
+});
+
+export const {} = ClosetDataSlice.actions;
+
+export default ClosetDataSlice.reducer;
