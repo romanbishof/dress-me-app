@@ -5,12 +5,12 @@ import styles from "../styles";
 import { genericShirtImg } from "../assets";
 
 const Garments = () => {
-  const { data } = useSelector((state) => state.ClosetData);
+  const { data, filterSelection } = useSelector((state) => state.ClosetData);
 
   const [filters, setFilters] = useState({
-    shoes: false,
-    shirt: false,
-    pants: false,
+    shoes: filterSelection.shoes,
+    shirt: filterSelection.shirt,
+    pants: filterSelection.pants,
   });
 
   const handleCheckboxChange = (event) => {
@@ -96,11 +96,11 @@ const Garments = () => {
               return (
                 <div key={item.id}>
                   <div className="px-8 pt-6">
-                    <img className="h-[400px]" src={genericShirtImg} alt="" />
+                    <img className="h-[200px]" src={genericShirtImg} alt="" />
                   </div>
                   <div className={` ${styles.flexCenter} pb-3 `}>
                     <div
-                      className={`flex flex-col items-center px-12 text-center text-black font-poppins font-semibold ss:text-[30px] text-[20px] ss:leading-[35px] leading-[15px] `}
+                      className={`flex flex-col items-center  text-center text-black font-poppins font-semibold text-[15px] ss:leading-[25px] leading-[15px] `}
                     >
                       <span>{item.brand}</span>
                       <span>{item.size}</span>

@@ -6,14 +6,16 @@ import Card from "../components/Card";
 import { pantsImg, shirtImg, shoesImg } from "../assets";
 import styles from "../styles";
 import { useNavigate } from "react-router-dom";
+import { filterSelectionFromHome } from "../redux/ClosetSlice";
 
 function Home() {
   const [select, setSelected] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleCardSelect = (e) => {
-    // console.log(e.target);
+    dispatch(filterSelectionFromHome(e.target.alt));
   };
 
   return (
