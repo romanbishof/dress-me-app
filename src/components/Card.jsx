@@ -9,9 +9,9 @@ const Card = ({ img, alt }) => {
   };
 
   return (
-    <div className="Card">
+    <div className="Card pb-10">
       <div
-        className={`Card-conteiner max-w-sm bg-white border border-gray-200 rounded-lg shadow-2xl hover:bg-slate-100 cursor-pointer ${
+        className={`Card-conteiner bg-white border border-gray-200 rounded-lg shadow-2xl hover:bg-slate-100 cursor-pointer ${
           selected ? "shadow-green-400" : ""
         }`}
         onClick={handleCardClick}

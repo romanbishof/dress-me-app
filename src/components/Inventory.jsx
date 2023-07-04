@@ -59,26 +59,26 @@ const Inventory = () => {
   // };
 
   return (
-    <div className="Inventory flex flex-row justify-between bg-gray-300 pl-12 pr-12 pt-1 pb-1 text-black font-poppins font-semibold ss:text-[30px] text-[25px] ss:leading-[45px] leading-[25px]">
-      <div className="container border-r-4 border-black">
+    <div className="Inventory flex flex-row bg-gray-300 sm:px-0 px-0 py-1 text-black font-poppins font-semibold sm:text-[30px] text-[25px] sm:leading-[45px] leading-[25px]">
+      <div className="container border-r-4 border-black md:block hidden ">
         <div className={`${styles.flexCenter}`}>
           <p>{`In the stock`}</p>
         </div>
       </div>
       <div className="container border-r-4 border-black">
-        <div className={`${styles.flexCenter} mr-7 space-x-4`}>
+        <div className={`${styles.flexCenter}  space-x-4`}>
           <p> {closet.shirts}</p>
           <img className="w-10 h-10" src={shirtIcon} alt="shirt" />
         </div>
       </div>
       <div className="container border-r-4 border-black">
-        <div className={`${styles.flexCenter} mr-7 space-x-4`}>
+        <div className={`${styles.flexCenter}  space-x-4`}>
           <p> {closet.pants}</p>
           <img className="w-10 h-10" src={trousersIcon} alt="shirt" />
         </div>
       </div>
       <div className="container">
-        <div className={`${styles.flexCenter} mr-7 space-x-4`}>
+        <div className={`${styles.flexCenter}  space-x-4`}>
           <p> {closet.shoes}</p>
           <img className="w-10 h-10" src={shoesIcon} alt="shirt" />
         </div>
