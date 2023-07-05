@@ -79,13 +79,16 @@ const initialValues = {
   shoesSelected: true,
   itemsTypesObj: {},
   garmentsPage: false,
+  selectedColor: "",
+  selectedSize: "",
+  sets: [],
 };
 
 const ClosetDataSlice = createSlice({
   name: "ClosetData",
   initialState: initialValues,
   reducers: {
-    filterSelectionFromHome: (state, action) => {
+    filterSelectionFrom: (state, action) => {
       switch (action.payload) {
         case "shirt":
           state.filterSelection = {
@@ -122,6 +125,12 @@ const ClosetDataSlice = createSlice({
     navigateToGarments: (state, action) => {
       state.garmentsPage = true;
     },
+    setSelectedColor: (state, action) => {
+      state.selectedColor = action.payload;
+    },
+    setSelectedSize: (state, action) => {
+      state.selectedSize = action.payload;
+    },
   },
   extraReducers: {
     [getClosetDataAsync.fulfilled]: (state, action) => {
@@ -141,7 +150,12 @@ const ClosetDataSlice = createSlice({
   },
 });
 
-export const { filterSelectionFromHome, returnHome, navigateToGarments } =
-  ClosetDataSlice.actions;
+export const {
+  filterSelectionFrom,
+  returnHome,
+  navigateToGarments,
+  setSelectedColor,
+  setSelectedSize,
+} = ClosetDataSlice.actions;
 
 export default ClosetDataSlice.reducer;

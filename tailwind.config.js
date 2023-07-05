@@ -23,5 +23,5 @@ export default {
       xl: "1700px",
     },
   },
-  plugins: [],
+  plugins: [require("tw-elements/dist/plugin.cjs")],
 };

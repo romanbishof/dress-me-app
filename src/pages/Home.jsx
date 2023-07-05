@@ -6,10 +6,7 @@ import Card from "../components/Card";
 import { pantsImg, shirtImg, shoesImg } from "../assets";
 import styles from "../styles";
 import { useNavigate } from "react-router-dom";
-import {
-  filterSelectionFromHome,
-  navigateToGarments,
-} from "../redux/ClosetSlice";
+import { filterSelectionFrom, navigateToGarments } from "../redux/ClosetSlice";
 
 function Home() {
   const [select, setSelected] = useState(false);
@@ -18,7 +15,7 @@ function Home() {
   const navigate = useNavigate();
 
   const handleCardSelect = (e) => {
-    dispatch(filterSelectionFromHome(e.target.alt));
+    dispatch(filterSelectionFrom(e.target.alt));
     // navigate("/garments");
   };
 

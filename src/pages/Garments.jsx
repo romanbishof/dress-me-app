@@ -1,22 +1,39 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles";
 import { genericShirtImg } from "../assets";
 import Filtering from "../components/Filtering";
+import { filterSelectionFrom } from "../redux/ClosetSlice";
 
 const Garments = () => {
-  const { data, filterSelection, itemsTypesObj, garmentsPage } = useSelector(
-    (state) => state.ClosetData
-  );
+  const { data, filterSelection, garmentsPage, selectedColor, selectedSize } =
+    useSelector((state) => state.ClosetData);
 
-  // const [selected, setSelected] = useState({});
-
+  const dispatch = useDispatch();
   const [filters, setFilters] = useState({
     shoes: filterSelection.shoes,
     shirt: filterSelection.shirt,
     pants: filterSelection.pants,
   });
+
+  // Function to filter by size
+  const filterBySize = (items) => {
+    if (selectedSize === "") {
+      return items; // No size selected, return all items
+    } else {
+      return items.filter((item) => item.size === selectedSize);
+    }
+  };
+
+  // Function to filter by color
+  const filterByColor = (items) => {
+    if (selectedColor === "") {
+      return items; // No color selected, return all items
+    } else {
+      return items.filter((item) => item.color === selectedColor);
+    }
+  };
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -24,14 +41,26 @@ const Garments = () => {
       ...prevFilters,
       [name]: checked,
     }));
+    dispatch(filterSelectionFrom(event.target.name));
   };
 
   const allFiltersUnchecked = Object.values(filters).every((value) => !value);
+
+  const filterItemType = data?.filter((item) => {
+    if (allFiltersUnchecked) {
+      return true; // Render all data when no checkboxes are checked
+    } else {
+      return filters[item.type];
+    }
+  });
 
   // scroll to begenning of page on page render
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const filteredBySize = filterBySize(filterItemType);
+  const filteredByColor = filterByColor(filteredBySize);
 
   return (
     <div className="Garments">
@@ -102,32 +131,24 @@ const Garments = () => {
         </div>
 
         <div className="Garments-showroom flex flex-wrap justify-center">
-          {data
-            ?.filter((item) => {
-              if (allFiltersUnchecked) {
-                return true; // Render all data when no checkboxes are checked
-              } else {
-                return filters[item.type];
-              }
-            })
-            .map((item) => {
-              return (
-                <div key={item.id}>
-                  <div className="px-8 pt-6">
-                    <img className="h-[200px]" src={genericShirtImg} alt="" />
-                  </div>
-                  <div className={` ${styles.flexCenter} pb-3 `}>
-                    <div
-                      className={`flex flex-col items-center  text-center text-black font-poppins font-semibold text-[15px] ss:leading-[25px] leading-[15px] `}
-                    >
-                      <span>{item.brand}</span>
-                      <span>{item.size}</span>
-                      <span>{item.color}</span>
-                    </div>
+          {filteredByColor.map((item) => {
+            return (
+              <div key={item.id}>
+                <div className="px-8 pt-6">
+                  <img className="h-[200px]" src={genericShirtImg} alt="" />
+                </div>
+                <div className={` ${styles.flexCenter} pb-3 `}>
+                  <div
+                    className={`flex flex-col items-center  text-center text-black font-poppins font-semibold text-[15px] ss:leading-[25px] leading-[15px] `}
+                  >
+                    <span>{item.brand}</span>
+                    <span>{item.size}</span>
+                    <span>{item.color}</span>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

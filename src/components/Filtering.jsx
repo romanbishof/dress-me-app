@@ -1,23 +1,43 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedColor, setSelectedSize } from "../redux/ClosetSlice";
 
 const Filtering = ({ filterType }) => {
   const { filterSelection, itemsTypesObj } = useSelector(
     (state) => state.ClosetData
   );
 
+  const dispatch = useDispatch();
+
   const values = Object.keys(itemsTypesObj)
     .filter((key) => filterSelection[key])
     .flatMap((key) => itemsTypesObj[key][filterType + "s"])
     .filter((value, index, self) => self.indexOf(value) === index);
 
+  const handleSelectChange = (event) => {
+    const selectedValue = event.target.value;
+
+    if (filterType === "color") {
+      dispatch(setSelectedColor(selectedValue));
+    } else if (filterType === "size") {
+      dispatch(setSelectedSize(selectedValue));
+    }
+  };
+
   return (
-    <div className="Filtering flex items-center pl-4 border-gray-200 rounded w-[200px]">
+    <div
+      className={`Filtering flex flex-col fon pl-4 border-gray-200 rounded w-[200px] `}
+    >
+      <label className={`text-base`} htmlFor={filterType}>
+        {filterType}
+      </label>
       <select
+        placeholder={filterType}
         id={filterType}
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="data-te-select-init bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        onChange={handleSelectChange}
       >
-        <option defaultValue={filterType}>{filterType}</option>
+        <option value={""}>{"All"}</option>
         {values.map((value) => (
           <option key={value} value={value}>
             {value}
