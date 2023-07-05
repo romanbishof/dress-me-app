@@ -39,6 +39,30 @@ const countClothes = (data, type) => {
   }, 0);
 };
 
+function filterSizesColors(data) {
+  const typeObjects = {};
+
+  data.forEach((item) => {
+    const item_type = item.type;
+    const item_size = item.size;
+    const item_color = item.color;
+
+    if (!typeObjects[item_type]) {
+      typeObjects[item_type] = { sizes: [], colors: [] };
+    }
+
+    if (!typeObjects[item_type].sizes.includes(item_size)) {
+      typeObjects[item_type].sizes.push(item_size);
+    }
+
+    if (!typeObjects[item_type].colors.includes(item_color)) {
+      typeObjects[item_type].colors.push(item_color);
+    }
+  });
+
+  return typeObjects;
+}
+
 const initialValues = {
   data: [],
   shirts: 0,
@@ -53,6 +77,7 @@ const initialValues = {
   shirtSelected: true,
   pantsSelected: true,
   shoesSelected: true,
+  itemsTypesObj: {},
 };
 
 const ClosetDataSlice = createSlice({
@@ -85,6 +110,13 @@ const ClosetDataSlice = createSlice({
           break;
       }
     },
+    returnHome: (state, action) => {
+      state.filterSelection = {
+        shoes: false,
+        shirt: false,
+        pants: false,
+      };
+    },
   },
   extraReducers: {
     [getClosetDataAsync.fulfilled]: (state, action) => {
@@ -98,10 +130,12 @@ const ClosetDataSlice = createSlice({
       state.pantsArray = action.payload.filter((item) => item.type === "pants");
       state.shoesArray = action.payload.filter((item) => item.type === "shoes");
       state.lengthOfData = action.payload.length;
+
+      state.itemsTypesObj = filterSizesColors(action.payload);
     },
   },
 });
 
-export const { filterSelectionFromHome } = ClosetDataSlice.actions;
+export const { filterSelectionFromHome, returnHome } = ClosetDataSlice.actions;
 
 export default ClosetDataSlice.reducer;

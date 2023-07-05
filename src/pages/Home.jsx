@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import Inventory from "../components/Inventory";
@@ -16,6 +16,7 @@ function Home() {
 
   const handleCardSelect = (e) => {
     dispatch(filterSelectionFromHome(e.target.alt));
+    navigate("/garments");
   };
 
   return (
@@ -46,7 +47,9 @@ function Home() {
         <div className={`Home__continuToSetBuild ${styles.flexCenter} pb-10`}>
           <button
             className={`${styles.text}  mt-8 bg-gray-400 rounded-lg text-white px-7 py-2 cursor-pointer hover:bg-slate-500 `}
-            onClick={() => navigate("/garments")}
+            onClick={() => {
+              navigate("/garments");
+            }}
           >
             continue to build your set
           </button>

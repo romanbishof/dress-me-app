@@ -8,9 +8,9 @@ const Inventory = () => {
   const { shirts, pants, shoes } = useSelector((state) => state.ClosetData);
 
   const [closet, setCloset] = useState({
-    shirts: 0,
-    pants: 0,
-    shoes: 0,
+    shirts: shirts,
+    pants: pants,
+    shoes: shoes,
   });
   useEffect(() => {
     setCloset({

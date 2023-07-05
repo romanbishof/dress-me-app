@@ -5,7 +5,11 @@ import styles from "../styles";
 import { genericShirtImg } from "../assets";
 
 const Garments = () => {
-  const { data, filterSelection } = useSelector((state) => state.ClosetData);
+  const { data, filterSelection, itemsTypesObj } = useSelector(
+    (state) => state.ClosetData
+  );
+
+  const [selected, setSelected] = useState({});
 
   const [filters, setFilters] = useState({
     shoes: filterSelection.shoes,
@@ -26,10 +30,12 @@ const Garments = () => {
   return (
     <div className="Garments">
       <Header />
-      <div className="Garments-body flex">
-        <div className={`Garments-filterOption ${styles.text}`}>
+      <div className="Garments-body flex flex-col">
+        <div
+          className={`Garments-filterOption ${styles.text} ${styles.flexCenter} flex-row`}
+        >
           <div
-            className={`flex items-center pl-4 border border-gray-200 rounded w-[250px] `}
+            className={`flex items-center pl-4 border border-gray-200 rounded w-[100px] `}
           >
             <input
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2 hover:cursor-pointer"
@@ -47,7 +53,7 @@ const Garments = () => {
               Shirts
             </label>
           </div>
-          <div className="flex items-center pl-4 border border-gray-200 rounded">
+          <div className="flex items-center pl-4 border border-gray-200 rounded w-[100px]">
             <input
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2 hover:cursor-pointer"
               type="checkbox"
@@ -64,7 +70,7 @@ const Garments = () => {
               Pants
             </label>
           </div>
-          <div className="flex items-center pl-4 border border-gray-200 rounded">
+          <div className="flex items-center pl-4 border border-gray-200 rounded w-[100px]">
             <input
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2 hover:cursor-pointer"
               type="checkbox"
@@ -81,9 +87,48 @@ const Garments = () => {
               Shoes
             </label>
           </div>
+          <div className="flex items-center pl-4  border-gray-200 rounded w-[200px]">
+            <select
+              id="countries"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option defaultValue={"Color"}>Color</option>
+              {Array.from(
+                new Set(
+                  Object.keys(itemsTypesObj)
+                    .filter((key) => filters[key])
+                    .flatMap((key) => itemsTypesObj[key].colors)
+                )
+              ).map((color) => (
+                <option key={color} value={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex items-center pl-4  border-gray-200 rounded w-[200px]">
+            <select
+              id="countries"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option defaultValue={"Size"}>Size</option>
+              {Array.from(
+                new Set(
+                  Object.keys(itemsTypesObj)
+                    .filter((key) => filters[key])
+                    .flatMap((key) => itemsTypesObj[key].sizes)
+                )
+              ).map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="Garments-showroom flex flex-wrap ">
+        <div className="Garments-showroom flex flex-wrap justify-center">
           {data
             ?.filter((item) => {
               if (allFiltersUnchecked) {
