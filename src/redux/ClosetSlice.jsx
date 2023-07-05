@@ -78,6 +78,7 @@ const initialValues = {
   pantsSelected: true,
   shoesSelected: true,
   itemsTypesObj: {},
+  garmentsPage: false,
 };
 
 const ClosetDataSlice = createSlice({
@@ -116,6 +117,10 @@ const ClosetDataSlice = createSlice({
         shirt: false,
         pants: false,
       };
+      state.garmentsPage = false;
+    },
+    navigateToGarments: (state, action) => {
+      state.garmentsPage = true;
     },
   },
   extraReducers: {
@@ -136,6 +141,7 @@ const ClosetDataSlice = createSlice({
   },
 });
 
-export const { filterSelectionFromHome, returnHome } = ClosetDataSlice.actions;
+export const { filterSelectionFromHome, returnHome, navigateToGarments } =
+  ClosetDataSlice.actions;
 
 export default ClosetDataSlice.reducer;

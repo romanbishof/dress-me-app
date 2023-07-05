@@ -16,21 +16,21 @@ const Card = ({ img, alt }) => {
         }`}
         onClick={handleCardClick}
       >
-        <a className="Card-container_image">
+        <div className="Card-container_image">
           <img className="h-[400px]" src={img} alt={alt} />
-        </a>
+        </div>
         <div
           className={`Card-container_select ${styles.flexCenter} p-3 ${
             selected ? "bg-green-400" : ""
           }`}
           alt={alt}
         >
-          <a
+          <div
             className={`$ inline-flex items-center px-12 text-center text-black ${styles.text}`}
             alt={alt}
           >
             Select
-          </a>
+          </div>
         </div>
       </div>
     </div>

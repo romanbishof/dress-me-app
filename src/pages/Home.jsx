@@ -6,7 +6,10 @@ import Card from "../components/Card";
 import { pantsImg, shirtImg, shoesImg } from "../assets";
 import styles from "../styles";
 import { useNavigate } from "react-router-dom";
-import { filterSelectionFromHome } from "../redux/ClosetSlice";
+import {
+  filterSelectionFromHome,
+  navigateToGarments,
+} from "../redux/ClosetSlice";
 
 function Home() {
   const [select, setSelected] = useState(false);
@@ -16,7 +19,7 @@ function Home() {
 
   const handleCardSelect = (e) => {
     dispatch(filterSelectionFromHome(e.target.alt));
-    navigate("/garments");
+    // navigate("/garments");
   };
 
   return (
@@ -34,7 +37,9 @@ function Home() {
         {/* div containig the buttons */}
         <div className="Home__buttons flex md:flex-row flex-col justify-around  md:items-start items-center ">
           <div onClick={handleCardSelect}>
-            <Card img={shirtImg} alt="shirt" />
+            <a href="#nextPage">
+              <Card img={shirtImg} alt="shirt" />
+            </a>
           </div>
           <div onClick={handleCardSelect}>
             <Card img={pantsImg} alt="pants" />
@@ -46,9 +51,11 @@ function Home() {
 
         <div className={`Home__continuToSetBuild ${styles.flexCenter} pb-10`}>
           <button
+            id="nextPage"
             className={`${styles.text}  mt-8 bg-gray-400 rounded-lg text-white px-7 py-2 cursor-pointer hover:bg-slate-500 `}
             onClick={() => {
               navigate("/garments");
+              dispatch(navigateToGarments());
             }}
           >
             continue to build your set
