@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getClosetDataAsync = createAsyncThunk(
@@ -63,6 +63,26 @@ function filterSizesColors(data) {
   return typeObjects;
 }
 
+function checkEmptyObjects(set) {
+  for (let item in set) {
+    if (Object.keys(set[item]).length === 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function getCurrentDate() {
+  const currentDate = new Date();
+  const day = currentDate.getDate();
+  const month = currentDate.toLocaleString("default", { month: "short" });
+  const year = currentDate.getFullYear();
+
+  const formattedDate = `${day}/${month}/${year}`;
+
+  return formattedDate;
+}
+
 const initialValues = {
   data: [],
   shirts: 0,
@@ -82,6 +102,11 @@ const initialValues = {
   selectedColor: "",
   selectedSize: "",
   sets: [],
+  set: {
+    shirt: {},
+    pants: {},
+    shoes: {},
+  },
 };
 
 const ClosetDataSlice = createSlice({
@@ -103,10 +128,10 @@ const ClosetDataSlice = createSlice({
             pants: !state.filterSelection.pants,
           };
           break;
-        case "sheos":
+        case "shoes":
           state.filterSelection = {
             ...state.filterSelection,
-            sheos: !state.filterSelection.sheos,
+            shoes: !state.filterSelection.shoes,
           };
           break;
 
@@ -130,6 +155,68 @@ const ClosetDataSlice = createSlice({
     },
     setSelectedSize: (state, action) => {
       state.selectedSize = action.payload;
+    },
+    buildSet: (state, action) => {
+      switch (action.payload.type) {
+        case "shirt":
+          {
+            let temp = checkEmptyObjects(state.set);
+
+            if (temp) {
+              // let date = getCurrentDate();
+              // state.set["date"] = date;
+              // state.sets = [...state.sets, state.set];
+              // state.set = {
+              //   shirt: {},
+              //   pants: {},
+              //   shoes: {},
+              // };
+            } else {
+              state.set.shirt = action.payload;
+            }
+          }
+          break;
+        case "pants":
+          {
+            let temp = checkEmptyObjects(state.set);
+
+            if (temp) {
+              // let date = new Date().toLocaleDateString();
+              // state.set["date"] = date;
+              // state.sets.push(state.set);
+              // state.set = {
+              //   shirt: {},
+              //   pants: {},
+              //   shoes: {},
+              // };
+            } else {
+              state.set.pants = action.payload;
+            }
+          }
+          break;
+        case "shoes":
+          {
+            let temp = checkEmptyObjects(state.set);
+
+            if (temp) {
+              // let date = new Date().toLocaleDateString();
+              // state.set["date"] = date;
+              // state.sets.push(state.set);
+              // state.set = {
+              //   shirt: {},
+              //   pants: {},
+              //   shoes: {},
+              // };
+            } else {
+              state.set.shoes = action.payload;
+            }
+          }
+          break;
+
+        default:
+          break;
+      }
+      console.log(current(state));
     },
   },
   extraReducers: {
@@ -156,6 +243,7 @@ export const {
   navigateToGarments,
   setSelectedColor,
   setSelectedSize,
+  buildSet,
 } = ClosetDataSlice.actions;
 
 export default ClosetDataSlice.reducer;

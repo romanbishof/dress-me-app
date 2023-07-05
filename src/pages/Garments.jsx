@@ -5,6 +5,7 @@ import styles from "../styles";
 import { genericShirtImg } from "../assets";
 import Filtering from "../components/Filtering";
 import { filterSelectionFrom } from "../redux/ClosetSlice";
+import ClothesCard from "../components/ClothesCard";
 
 const Garments = () => {
   const { data, filterSelection, garmentsPage, selectedColor, selectedSize } =
@@ -134,18 +135,7 @@ const Garments = () => {
           {filteredByColor.map((item) => {
             return (
               <div key={item.id}>
-                <div className="px-8 pt-6">
-                  <img className="h-[200px]" src={genericShirtImg} alt="" />
-                </div>
-                <div className={` ${styles.flexCenter} pb-3 `}>
-                  <div
-                    className={`flex flex-col items-center  text-center text-black font-poppins font-semibold text-[15px] ss:leading-[25px] leading-[15px] `}
-                  >
-                    <span>{item.brand}</span>
-                    <span>{item.size}</span>
-                    <span>{item.color}</span>
-                  </div>
-                </div>
+                <ClothesCard clothesItem={item} />
               </div>
             );
           })}
