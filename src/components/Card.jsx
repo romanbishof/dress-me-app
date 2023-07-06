@@ -1,36 +1,34 @@
-import React, { useState } from "react";
-import styles from "../styles";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { filterSelectionFrom, navigateToGarments } from "../redux/ClosetSlice";
 
 const Card = ({ img, alt }) => {
-  const [selected, setSelected] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    setSelected(!selected);
+  const handleCardSelect = (itemType) => {
+    dispatch(filterSelectionFrom(itemType));
+    navigate("/garments");
   };
 
   return (
-    <div className="Card pb-10">
-      <div
-        className={`Card-conteiner bg-white border border-gray-200 rounded-lg shadow-2xl hover:bg-slate-100 cursor-pointer ${
-          selected ? "shadow-green-400" : ""
-        }`}
-        onClick={handleCardClick}
-      >
-        <div className="Card-container_image">
-          <img className="h-[400px]" src={img} alt={alt} />
-        </div>
+    <div className="Card">
+      <div className="imgBox">
+        <img src={img} alt={alt} className="clothesItem" />
+      </div>
+
+      <div className="contentBox">
+        <h3>{`Start with ${alt}`}</h3>
+
         <div
-          className={`Card-container_select ${styles.flexCenter} p-3 ${
-            selected ? "bg-green-400" : ""
-          }`}
-          alt={alt}
+          className="start cursor-pointer"
+          onClick={() => {
+            handleCardSelect(alt);
+            dispatch(navigateToGarments());
+          }}
         >
-          <div
-            className={`$ inline-flex items-center px-12 text-center text-black ${styles.text}`}
-            alt={alt}
-          >
-            Select
-          </div>
+          Build Set
         </div>
       </div>
     </div>

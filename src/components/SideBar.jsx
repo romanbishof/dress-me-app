@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { returnHome } from "../redux/ClosetSlice";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   return (
     <>
       {showSidebar ? (
@@ -35,11 +36,25 @@ const Sidebar = () => {
           showSidebar ? "translate-x-0 " : "translate-x-full"
         }`}
       >
-        <span className="cursor-pointer" onClick={() => navigate("/")}>
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            navigate("/");
+            dispatch(returnHome());
+          }}
+        >
           Home
         </span>
         <span className="cursor-pointer" onClick={() => navigate("/garments")}>
           Garmements
+        </span>
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            navigate("/my_space");
+          }}
+        >
+          My Space
         </span>
       </div>
     </>

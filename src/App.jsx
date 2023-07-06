@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { getClosetDataAsync } from "./redux/ClosetSlice";
 import Home from "./pages/Home";
 import Garments from "./pages/Garments";
+import MySpace from "./pages/MySpace";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/garments" element={<Garments />} />
+        <Route path="/my_space" element={<MySpace />} />
       </Routes>
     </div>
   );

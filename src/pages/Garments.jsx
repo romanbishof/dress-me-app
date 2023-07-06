@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles";
-import { genericShirtImg } from "../assets";
 import Filtering from "../components/Filtering";
 import { filterSelectionFrom } from "../redux/ClosetSlice";
 import ClothesCard from "../components/ClothesCard";
@@ -65,7 +64,7 @@ const Garments = () => {
 
   return (
     <div className="Garments">
-      <Header />
+      <Header title={"Garments"} />
       <div className="Garments-body flex flex-col ">
         <div
           className={`Garments-filterOption ${styles.text} ${styles.flexCenter} flex-row`}

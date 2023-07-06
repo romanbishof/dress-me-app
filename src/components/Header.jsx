@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { returnHome } from "../redux/ClosetSlice";
 
-const Header = () => {
+const Header = ({ title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ const Header = () => {
           >{`Home`}</button>
         </div>
         <h1 className="App-home_title flex font-poppins font-semibold ss:text-[42px] text-[42px] text-black ss:leading-[100.8px] leading-[75px]">
-          <span>{`header title`}</span>
+          <span>{title}</span>
         </h1>
         <div className="Header-sideBar">
           <Sidebar />

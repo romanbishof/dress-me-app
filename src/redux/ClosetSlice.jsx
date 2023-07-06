@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 export const getClosetDataAsync = createAsyncThunk(
   "closet/getClothesAsync",
@@ -160,55 +161,58 @@ const ClosetDataSlice = createSlice({
       switch (action.payload.type) {
         case "shirt":
           {
-            let temp = checkEmptyObjects(state.set);
+            state.set.shirt = action.payload;
+            let isSetBuild = checkEmptyObjects(state.set);
 
-            if (temp) {
-              // let date = getCurrentDate();
-              // state.set["date"] = date;
-              // state.sets = [...state.sets, state.set];
-              // state.set = {
-              //   shirt: {},
-              //   pants: {},
-              //   shoes: {},
-              // };
-            } else {
-              state.set.shirt = action.payload;
+            if (isSetBuild) {
+              let date = getCurrentDate();
+              state.set["date"] = date;
+              state.set["id"] = uuidv4();
+              state.sets = [...state.sets, state.set];
+              state.set = {
+                shirt: {},
+                pants: {},
+                shoes: {},
+              };
+              localStorage.setItem("sets", JSON.stringify(state.sets));
             }
           }
           break;
         case "pants":
           {
-            let temp = checkEmptyObjects(state.set);
+            state.set.pants = action.payload;
+            let isSetBuild = checkEmptyObjects(state.set);
 
-            if (temp) {
-              // let date = new Date().toLocaleDateString();
-              // state.set["date"] = date;
-              // state.sets.push(state.set);
-              // state.set = {
-              //   shirt: {},
-              //   pants: {},
-              //   shoes: {},
-              // };
-            } else {
-              state.set.pants = action.payload;
+            if (isSetBuild) {
+              let date = getCurrentDate();
+              state.set["date"] = date;
+              state.set["id"] = uuidv4();
+              state.sets = [...state.sets, state.set];
+              state.set = {
+                shirt: {},
+                pants: {},
+                shoes: {},
+              };
+              localStorage.setItem("sets", JSON.stringify(state.sets));
             }
           }
           break;
         case "shoes":
           {
-            let temp = checkEmptyObjects(state.set);
+            state.set.shoes = action.payload;
+            let isSetBuild = checkEmptyObjects(state.set);
 
-            if (temp) {
-              // let date = new Date().toLocaleDateString();
-              // state.set["date"] = date;
-              // state.sets.push(state.set);
-              // state.set = {
-              //   shirt: {},
-              //   pants: {},
-              //   shoes: {},
-              // };
-            } else {
-              state.set.shoes = action.payload;
+            if (isSetBuild) {
+              let date = getCurrentDate();
+              state.set["date"] = date;
+              state.set["id"] = uuidv4();
+              state.sets = [...state.sets, state.set];
+              state.set = {
+                shirt: {},
+                pants: {},
+                shoes: {},
+              };
+              localStorage.setItem("sets", JSON.stringify(state.sets));
             }
           }
           break;
@@ -217,6 +221,9 @@ const ClosetDataSlice = createSlice({
           break;
       }
       console.log(current(state));
+    },
+    deleteSet: (state, action) => {
+      state.sets = state.sets.filter((set) => set.id !== action.payload);
     },
   },
   extraReducers: {
@@ -233,6 +240,14 @@ const ClosetDataSlice = createSlice({
       state.lengthOfData = action.payload.length;
 
       state.itemsTypesObj = filterSizesColors(action.payload);
+      const sets = localStorage.getItem("sets");
+
+      if (sets) {
+        state.sets = JSON.parse(sets);
+      } else {
+        state.sets = [];
+        localStorage.setItem("sets", JSON.stringify([]));
+      }
     },
   },
 });
@@ -244,6 +259,7 @@ export const {
   setSelectedColor,
   setSelectedSize,
   buildSet,
+  deleteSet,
 } = ClosetDataSlice.actions;
 
 export default ClosetDataSlice.reducer;

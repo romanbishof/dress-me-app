@@ -14,7 +14,7 @@ const ClothesCard = ({ clothesItem }) => {
     setSelected(!selected);
   };
   return (
-    <div className={`ClothesCard  `}>
+    <div className={`ClothesCard `}>
       <div className="px-8 pt-6">
         <img className="h-[200px]" src={genericShirtImg} alt="" />
       </div>
