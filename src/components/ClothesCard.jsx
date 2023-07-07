@@ -13,28 +13,7 @@ const ClothesCard = ({ clothesItem }) => {
   };
   return (
     <div className={`ClothesCard `}>
-      {/* <div className="px-8 pt-6">
-        <img className="h-[200px]" src={genericShirtImg} alt="" />
-      </div>
-      <div className={` ${styles.flexCenter} pb-3 `}>
-        <div className={`flex flex-col`}>
-          <div
-            className={`ClothesCard-info flex flex-col items-center font-poppins font-semibold text-[15px] ss:leading-[25px] leading-[15px]`}
-          >
-            <span>{clothesItem.brand}</span>
-            <span>{clothesItem.size}</span>
-            <span>{clothesItem.color}</span>
-          </div>
-          <button
-            type="button"
-            className={`${styles.button}`}
-            onClick={() => handleSelectItem(clothesItem)}
-          >
-            Select
-          </button>
-        </div>
-      </div> */}
-      <div className="wrapper">
+      <div className="w-[230px] h-[380px] bg-white m-auto relative overflow-hidden rounded-lg shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
         <div className="w-full h-full">
           <div className="top">
             <img src={genericShirtImg} alt="" />

@@ -62,6 +62,14 @@ const Sidebar = () => {
         >
           My Space
         </span>
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            navigate("/test-page");
+          }}
+        >
+          test page
+        </span>
       </div>
     </>
   );

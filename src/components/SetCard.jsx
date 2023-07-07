@@ -13,10 +13,13 @@ const SetCard = ({ set }) => {
   return (
     <div className="Container">
       <div className="card">
-        <div className="card-head flex flex-col justify-center items-center">
-          <span className="back-text ">My Set</span>
-          <div className="product-detail">
-            <h2 className="text-sm text-white tracking-widest uppercase">{`created: ${set.date}`}</h2>
+        <div className="card-head flex flex-col  items-center">
+          <span className="inline-block text-4xl font-extrabold mt-2 opacity-30 ">
+            My Set
+          </span>
+          <div className="product-detail flex flex-col mt-1 items-center">
+            <h2 className="text-sm text-white tracking-widest uppercase">{`${set.date}`}</h2>
+            <h2 className="text-xs text-white tracking-widest uppercase">{`elapsed time: ${set.elapsedTime}`}</h2>
           </div>
         </div>
         <div className="card-body h-[230px] rounded-b-3xl bg-white flex flex-col items-center">

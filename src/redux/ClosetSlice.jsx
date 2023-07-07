@@ -84,6 +84,17 @@ function getCurrentDate() {
   return formattedDate;
 }
 
+function elapsedTime(startTime) {
+  const elapsed = new Date().getTime() - startTime;
+  const hours = Math.floor(elapsed / 3600000);
+  const minutes = Math.floor((elapsed % 3600000) / 60000);
+  const seconds = Math.floor((elapsed % 60000) / 1000);
+
+  return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")} `;
+}
+
 const initialValues = {
   data: [],
   shirts: 0,
@@ -170,22 +181,14 @@ const ClosetDataSlice = createSlice({
               let date = getCurrentDate();
               state.set["date"] = date;
               state.set["id"] = uuidv4();
+              state.set["elapsedTime"] = elapsedTime(state.startTime);
+
               state.sets = [...state.sets, state.set];
               state.set = {
                 shirt: {},
                 pants: {},
                 shoes: {},
               };
-
-              const elapsed = new Date().getTime() - state.startTime;
-              const hours = Math.floor(elapsed / 3600000);
-              const minutes = Math.floor((elapsed % 3600000) / 60000);
-              const seconds = Math.floor((elapsed % 60000) / 1000);
-              console.log(
-                `Elapsed time: ${hours}:${minutes
-                  .toString()
-                  .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} sec`
-              );
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -200,22 +203,14 @@ const ClosetDataSlice = createSlice({
               let date = getCurrentDate();
               state.set["date"] = date;
               state.set["id"] = uuidv4();
+              state.set["elapsedTime"] = elapsedTime(state.startTime);
+
               state.sets = [...state.sets, state.set];
               state.set = {
                 shirt: {},
                 pants: {},
                 shoes: {},
               };
-
-              const elapsed = new Date().getTime() - state.startTime;
-              const hours = Math.floor(elapsed / 3600000);
-              const minutes = Math.floor((elapsed % 3600000) / 60000);
-              const seconds = Math.floor((elapsed % 60000) / 1000);
-              console.log(
-                `Elapsed time: ${hours}:${minutes
-                  .toString()
-                  .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} sec`
-              );
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -230,22 +225,13 @@ const ClosetDataSlice = createSlice({
               let date = getCurrentDate();
               state.set["date"] = date;
               state.set["id"] = uuidv4();
+              state.set["elapsedTime"] = elapsedTime(state.startTime);
               state.sets = [...state.sets, state.set];
               state.set = {
                 shirt: {},
                 pants: {},
                 shoes: {},
               };
-
-              const elapsed = new Date().getTime() - state.startTime;
-              const hours = Math.floor(elapsed / 3600000);
-              const minutes = Math.floor((elapsed % 3600000) / 60000);
-              const seconds = Math.floor((elapsed % 60000) / 1000);
-              console.log(
-                `Elapsed time: ${hours}:${minutes
-                  .toString()
-                  .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} sec`
-              );
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
