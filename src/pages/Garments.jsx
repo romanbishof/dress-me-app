@@ -176,7 +176,7 @@ const Garments = () => {
         </div>
 
         {filterSelection.shirt && (
-          <div className="Garments-showroom flex flex-row flex-wrap justify-between ">
+          <div className="Garments-showroom flex flex-row flex-wrap  ">
             {filterShirtByColor.map((item) => (
               <div className="mr-5" key={item.id}>
                 <ClothesCard clothesItem={item} />
@@ -186,7 +186,7 @@ const Garments = () => {
         )}
 
         {filterSelection.pants && (
-          <div className="Garments-showroom flex flex-wrap ">
+          <div className="Garments-showroom flex flex-row flex-wrap  ">
             {filterpantsByColor.map((item) => (
               <div key={item.id}>
                 <ClothesCard clothesItem={item} />
@@ -196,7 +196,7 @@ const Garments = () => {
         )}
 
         {filterSelection.shoes && (
-          <div className="Garments-showroom flex flex-wrap ">
+          <div className="Garments-showroom flex flex-row flex-wrap  ">
             {filterShoesByColor.map((item) => (
               <div key={item.id}>
                 <ClothesCard clothesItem={item} />

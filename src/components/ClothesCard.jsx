@@ -46,7 +46,12 @@ const ClothesCard = ({ clothesItem }) => {
                 <h4>{clothesItem.size}</h4>
                 <h4>{clothesItem.color}</h4>
               </div>
-              <div className="buy cursor-pointer float-right w-calc-30-minus-2 hover:bg-addCloth h-full border-l border-solid border-gray-300 transition duration-500">
+              <div
+                className="buy cursor-pointer float-right w-calc-30-minus-2 hover:bg-addCloth h-full border-l border-solid border-gray-300 transition duration-500"
+                onClick={() => {
+                  handleSelectItem(clothesItem);
+                }}
+              >
                 <img src={clothesAddIcon} alt="" className="p-4" />
               </div>
             </div>

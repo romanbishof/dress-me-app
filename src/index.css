@@ -36,10 +36,10 @@
   transform: scale(0.95);
   transition: box-shadow 0.5s, transform 0.5s;
 }
-/* .wrapper:hover {
+.wrapper:hover {
   transform: scale(1);
   box-shadow: 5px 20px 30px rgba(0, 0, 0, 0.2);
-} */
+}
 /* 
 .wrapper .container {
   width: 100%;
