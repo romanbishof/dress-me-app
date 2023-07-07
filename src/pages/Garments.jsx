@@ -5,17 +5,38 @@ import styles from "../styles";
 import Filtering from "../components/Filtering";
 import { filterSelectionFrom } from "../redux/ClosetSlice";
 import ClothesCard from "../components/ClothesCard";
+import { useNavigate } from "react-router-dom";
 
 const Garments = () => {
   const { data, filterSelection, garmentsPage, selectedColor, selectedSize } =
     useSelector((state) => state.ClosetData);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({
     shoes: filterSelection.shoes,
     shirt: filterSelection.shirt,
     pants: filterSelection.pants,
   });
+
+  //#region arrays
+  const [shirts, setShirts] = useState(
+    data?.filter((item) => item.type === "shirt")
+  );
+  // console.log(shirts);
+  const [pants, setPants] = useState(
+    data?.filter((item) => item.type === "pants")
+  );
+  // console.log(pants);
+  const [shoes, setShoes] = useState(
+    data?.filter((item) => item.type === "shoes")
+  );
+  // console.log(shoes);
+  // #endregion
+
+  const [selectedShirt, setSelectedShirt] = useState(filterSelection.shirt);
+  const [selectedPants, setSelectedPants] = useState(filterSelection.pants);
+  const [selectedShoes, setSelectedShoes] = useState(filterSelection.shoes);
 
   // Function to filter by size
   const filterBySize = (items) => {
@@ -35,32 +56,56 @@ const Garments = () => {
     }
   };
 
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: checked,
-    }));
-    dispatch(filterSelectionFrom(event.target.name));
-  };
+  // const handleCheckboxChange = (event) => {
+  //   const { name, checked } = event.target;
+  //   setFilters((prevFilters) => ({
+  //     ...prevFilters,
+  //     [name]: checked,
+  //   }));
+  //   dispatch(filterSelectionFrom(event.target.name));
+  // };
 
   const allFiltersUnchecked = Object.values(filters).every((value) => !value);
 
-  const filterItemType = data?.filter((item) => {
-    if (allFiltersUnchecked) {
-      return true; // Render all data when no checkboxes are checked
-    } else {
-      return filters[item.type];
-    }
-  });
+  // const filterItemType = data?.filter((item) => {
+  //   if (allFiltersUnchecked) {
+  //     return true; // Render all data when no checkboxes are checked
+  //   } else {
+  //     return filters[item.type];
+  //   }
+  // });
 
   // scroll to begenning of page on page render
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const filteredBySize = filterBySize(filterItemType);
-  const filteredByColor = filterByColor(filteredBySize);
+  useEffect(() => {
+    if (filterSelection.shirt) {
+      setSelectedShirt(true);
+    }
+    if (filterSelection.pants) {
+      setSelectedPants(true);
+    }
+    if (filterSelection.shoes) {
+      setSelectedShoes(true);
+    }
+    if (selectedShirt && selectedPants && selectedShoes) {
+      // All items are selected, trigger the redirection
+      navigate("/my_space");
+    }
+  }, [filterSelection.shirt, filterSelection.pants, filterSelection.shoes]);
+
+  // const filteredBySize = filterBySize(filterItemType);
+  // const filteredByColor = filterByColor(filteredBySize);
+
+  const filterShirtBySize = filterBySize(shirts);
+  const filterpantsBySize = filterBySize(pants);
+  const filterShoesBySize = filterBySize(shoes);
+
+  const filterShirtByColor = filterByColor(filterShirtBySize);
+  const filterpantsByColor = filterByColor(filterpantsBySize);
+  const filterShoesByColor = filterByColor(filterShoesBySize);
 
   return (
     <div className="Garments">
@@ -69,7 +114,7 @@ const Garments = () => {
         <div
           className={`Garments-filterOption ${styles.text} ${styles.flexCenter} flex-row`}
         >
-          <div className={`flex flex-row ${garmentsPage ? "hidden" : "block"}`}>
+          {/* <div className={`flex flex-row ${garmentsPage ? "hidden" : "block"}`}>
             <div
               className={`flex items-center pl-4 border border-gray-200 rounded w-[100px] `}
             >
@@ -123,14 +168,14 @@ const Garments = () => {
                 Shoes
               </label>
             </div>
-          </div>
+          </div> */}
 
           <Filtering filterType={"color"} />
 
           <Filtering filterType={"size"} />
         </div>
 
-        <div className="Garments-showroom flex flex-wrap justify-center">
+        {/* <div className="Garments-showroom flex flex-wrap justify-center">
           {filteredByColor.map((item) => {
             return (
               <div key={item.id}>
@@ -138,7 +183,36 @@ const Garments = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
+        {filterSelection.shirt && (
+          <div className="Garments-showroom flex flex-wrap justify-center">
+            {filterShirtByColor.map((item) => (
+              <div key={item.id}>
+                <ClothesCard clothesItem={item} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {filterSelection.pants && (
+          <div className="Garments-showroom flex flex-wrap justify-center">
+            {filterpantsByColor.map((item) => (
+              <div key={item.id}>
+                <ClothesCard clothesItem={item} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {filterSelection.shoes && (
+          <div className="Garments-showroom flex flex-wrap justify-center">
+            {filterShoesByColor.map((item) => (
+              <div key={item.id}>
+                <ClothesCard clothesItem={item} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

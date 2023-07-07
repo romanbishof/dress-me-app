@@ -9,6 +9,7 @@ const Card = ({ img, alt }) => {
 
   const handleCardSelect = (itemType) => {
     dispatch(filterSelectionFrom(itemType));
+    dispatch(navigateToGarments());
     navigate("/garments");
   };
 
@@ -25,7 +26,6 @@ const Card = ({ img, alt }) => {
           className="start cursor-pointer"
           onClick={() => {
             handleCardSelect(alt);
-            dispatch(navigateToGarments());
           }}
         >
           Build Set

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { returnHome } from "../redux/ClosetSlice";
+import { navigateToGarments, returnHome } from "../redux/ClosetSlice";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -45,7 +45,13 @@ const Sidebar = () => {
         >
           Home
         </span>
-        <span className="cursor-pointer" onClick={() => navigate("/garments")}>
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            navigate("/garments");
+            dispatch(navigateToGarments());
+          }}
+        >
           Garmements
         </span>
         <span

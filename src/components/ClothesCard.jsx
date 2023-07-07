@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import { genericShirtImg } from "../assets";
 import styles from "../styles";
 import { useDispatch } from "react-redux";
-import { buildSet } from "../redux/ClosetSlice";
+import { buildSet, filterGarmentsSelection } from "../redux/ClosetSlice";
 
 const ClothesCard = ({ clothesItem }) => {
   const dispatch = useDispatch();
 
-  const [selected, setSelected] = useState(false);
-
   const handleSelectItem = (clothesItem) => {
+    dispatch(filterGarmentsSelection(clothesItem));
     dispatch(buildSet(clothesItem));
-    setSelected(!selected);
   };
   return (
     <div className={`ClothesCard `}>

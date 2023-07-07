@@ -147,9 +147,11 @@ const ClosetDataSlice = createSlice({
         pants: false,
       };
       state.garmentsPage = false;
+      state.startTime = null;
     },
     navigateToGarments: (state, action) => {
       state.garmentsPage = true;
+      state.startTime = new Date().getTime();
     },
     setSelectedColor: (state, action) => {
       state.selectedColor = action.payload;
@@ -174,6 +176,17 @@ const ClosetDataSlice = createSlice({
                 pants: {},
                 shoes: {},
               };
+
+              const elapsed = new Date().getTime() - state.startTime;
+              const hours = Math.floor(elapsed / 3600000);
+              const minutes = Math.floor((elapsed % 3600000) / 60000);
+              const seconds = Math.floor((elapsed % 60000) / 1000);
+              console.log(
+                `Elapsed time: ${hours}:${minutes
+                  .toString()
+                  .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} sec`
+              );
+
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
           }
@@ -193,6 +206,17 @@ const ClosetDataSlice = createSlice({
                 pants: {},
                 shoes: {},
               };
+
+              const elapsed = new Date().getTime() - state.startTime;
+              const hours = Math.floor(elapsed / 3600000);
+              const minutes = Math.floor((elapsed % 3600000) / 60000);
+              const seconds = Math.floor((elapsed % 60000) / 1000);
+              console.log(
+                `Elapsed time: ${hours}:${minutes
+                  .toString()
+                  .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} sec`
+              );
+
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
           }
@@ -212,6 +236,17 @@ const ClosetDataSlice = createSlice({
                 pants: {},
                 shoes: {},
               };
+
+              const elapsed = new Date().getTime() - state.startTime;
+              const hours = Math.floor(elapsed / 3600000);
+              const minutes = Math.floor((elapsed % 3600000) / 60000);
+              const seconds = Math.floor((elapsed % 60000) / 1000);
+              console.log(
+                `Elapsed time: ${hours}:${minutes
+                  .toString()
+                  .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} sec`
+              );
+
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
           }
@@ -224,6 +259,44 @@ const ClosetDataSlice = createSlice({
     },
     deleteSet: (state, action) => {
       state.sets = state.sets.filter((set) => set.id !== action.payload);
+    },
+    filterGarmentsSelection: (state, action) => {
+      switch (action.payload.type) {
+        case "shirt":
+          {
+            state.filterSelection.shirt = false;
+            if (Object.keys(state.set.pants).length === 0) {
+              state.filterSelection.pants = true;
+            } else {
+              state.filterSelection.shoes = true;
+            }
+          }
+          break;
+        case "pants":
+          {
+            state.filterSelection.pants = false;
+            if (Object.keys(state.set.shirt).length === 0) {
+              state.filterSelection.shirt = true;
+            } else if (Object.keys(state.set.shoes).length === 0) {
+              state.filterSelection.shoes = true;
+            }
+          }
+          break;
+        case "shoes":
+          {
+            state.filterSelection.shoes = false;
+            if (Object.keys(state.set.pants).length === 0) {
+              state.filterSelection.pants = true;
+            } else if (Object.keys(state.set.shirt).length === 0) {
+              state.filterSelection.shirt = true;
+            }
+          }
+          break;
+
+        default:
+          break;
+      }
+      console.log(current(state));
     },
   },
   extraReducers: {
@@ -260,6 +333,7 @@ export const {
   setSelectedSize,
   buildSet,
   deleteSet,
+  filterGarmentsSelection,
 } = ClosetDataSlice.actions;
 
 export default ClosetDataSlice.reducer;
