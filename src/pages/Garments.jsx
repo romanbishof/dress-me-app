@@ -110,7 +110,7 @@ const Garments = () => {
   return (
     <div className="Garments">
       <Header title={"Garments"} />
-      <div className="Garments-body flex flex-col ">
+      <div className="Garments-body flex flex-col sm:px-10">
         <div
           className={`Garments-filterOption ${styles.text} ${styles.flexCenter} flex-row`}
         >
@@ -175,19 +175,10 @@ const Garments = () => {
           <Filtering filterType={"size"} />
         </div>
 
-        {/* <div className="Garments-showroom flex flex-wrap justify-center">
-          {filteredByColor.map((item) => {
-            return (
-              <div key={item.id}>
-                <ClothesCard clothesItem={item} />
-              </div>
-            );
-          })}
-        </div> */}
         {filterSelection.shirt && (
-          <div className="Garments-showroom flex flex-wrap justify-center">
+          <div className="Garments-showroom flex flex-row flex-wrap justify-between ">
             {filterShirtByColor.map((item) => (
-              <div key={item.id}>
+              <div className="mr-5" key={item.id}>
                 <ClothesCard clothesItem={item} />
               </div>
             ))}
@@ -195,7 +186,7 @@ const Garments = () => {
         )}
 
         {filterSelection.pants && (
-          <div className="Garments-showroom flex flex-wrap justify-center">
+          <div className="Garments-showroom flex flex-wrap ">
             {filterpantsByColor.map((item) => (
               <div key={item.id}>
                 <ClothesCard clothesItem={item} />
@@ -205,7 +196,7 @@ const Garments = () => {
         )}
 
         {filterSelection.shoes && (
-          <div className="Garments-showroom flex flex-wrap justify-center">
+          <div className="Garments-showroom flex flex-wrap ">
             {filterShoesByColor.map((item) => (
               <div key={item.id}>
                 <ClothesCard clothesItem={item} />

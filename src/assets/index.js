@@ -7,6 +7,7 @@ import shoesIcon from "./sport-shoe.png";
 import genericShirtImg from "./genericShirtImg.webp";
 import genericPantstImg from "./genericPantsImg.webp";
 import genericShoesImg from "./genericShoesImg.webp";
+import clothesAddIcon from "./clothesAddIcon.png";
 
 export {
   pantsImg,
@@ -18,4 +19,5 @@ export {
   genericShirtImg,
   genericPantstImg,
   genericShoesImg,
+  clothesAddIcon,
 };

@@ -11,9 +11,14 @@ export default {
         dimBlue: "rgba(9, 151, 124, 0.1)",
         card: "#191919",
         cardBefore: "#ffce00",
+        addCloth: "#A6CDDE",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
+      },
+      width: {
+        "calc-30-minus-2": "calc(30% - 2px)",
+        "calc-70-minus-40": "calc(70% - 40px)",
       },
     },
     screens: {

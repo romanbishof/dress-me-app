@@ -296,7 +296,6 @@ const ClosetDataSlice = createSlice({
         default:
           break;
       }
-      console.log(current(state));
     },
   },
   extraReducers: {

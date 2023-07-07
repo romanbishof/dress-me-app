@@ -6,6 +6,7 @@
 @tailwind utilities;
 
 :root {
+  background: #E3E3D8;
   --black-gradient: linear-gradient(
     144.39deg,
     #ffffff -278.56%,
@@ -23,7 +24,33 @@
     --black: #000;
 }
 
+.wrapper {
+  width: 230px;
+  height: 380px;
+  background: white;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px 10px 10px 10px;
+  box-shadow: 0;
+  transform: scale(0.95);
+  transition: box-shadow 0.5s, transform 0.5s;
+}
+/* .wrapper:hover {
+  transform: scale(1);
+  box-shadow: 5px 20px 30px rgba(0, 0, 0, 0.2);
+} */
+/* 
+.wrapper .container {
+  width: 100%;
+  height: 100%;
+} */
 
+/* .wrapper .container .bottom {
+  width: 200%;
+  height: 20%;
+  transition: transform 0.5s;
+} */
 
 * {
   margin: 0;

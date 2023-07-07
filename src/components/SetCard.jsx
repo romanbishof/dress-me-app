@@ -41,7 +41,7 @@ const SetCard = ({ set }) => {
             <div className={`border-r-2 border-gray-200 `}></div>
             <div className={`flex flex-col items-center w-full`}>
               <img src={shoesIcon} alt="" className="w-6 h-6" />
-              <span className="text-xs pt-5 w-[full] ml-3">
+              <span className="text-xs pt-5 w-[full] ml-1">
                 <h4>{`${set.shoes.brand}`}</h4>
                 <h4>{`Size: ${set.shoes.size}`}</h4>
                 <h4>{`Color: ${set.shoes.color}`}</h4>

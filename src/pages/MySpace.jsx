@@ -8,13 +8,15 @@ const MySpace = () => {
   return (
     <div className="MySpace">
       <Header title={"My Space"} />
-      {sets?.map((item) => {
-        return (
-          <div key={item.id + "q"}>
-            <SetCard set={item} />
-          </div>
-        );
-      })}
+      <div className="flex flex-row flex-wrap sm:px-10">
+        {sets?.map((item) => {
+          return (
+            <div className="mr-10" key={item.id + "q"}>
+              <SetCard set={item} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
