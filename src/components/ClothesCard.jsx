@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { buildSet, filterGarmentsSelection } from "../redux/ClosetSlice";
 import styles from "../styles";
 
-const ClothesCard = ({ clothesItem, onItemSelected }) => {
+const ClothesCard = ({ clothesItem, onItemSelected, suggestItems }) => {
   const dispatch = useDispatch();
   const [imageOfProduct, setImageOfProduct] = useState("");
 
@@ -18,6 +18,7 @@ const ClothesCard = ({ clothesItem, onItemSelected }) => {
     dispatch(filterGarmentsSelection(clothesItem));
     dispatch(buildSet(clothesItem));
     onItemSelected(clothesItem);
+    suggestItems(clothesItem);
   };
 
   useEffect(() => {

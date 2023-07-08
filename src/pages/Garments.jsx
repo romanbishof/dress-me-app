@@ -120,6 +120,66 @@ const Garments = () => {
   const filterShoesByColor = filterByColor(filterShoesBySize);
   // #endregion
 
+  const handleSuggestItems = (selectedItem) => {
+    // Determine the person's size category based on the selected item's size
+    let sizeCategory;
+    const selectedType = selectedItem.type;
+    const selectedSize = selectedItem.size;
+
+    if (selectedType === "shirt") {
+      if (selectedSize === "S") {
+        sizeCategory = "small";
+      } else if (selectedSize === "M" || selectedSize === "L") {
+        sizeCategory = "average";
+      } else {
+        sizeCategory = "large";
+      }
+    } else if (selectedType === "shoes" || selectedType === "pants") {
+      if (selectedSize < 38) {
+        sizeCategory = "small";
+      } else if (selectedSize >= 38 && selectedSize <= 42) {
+        sizeCategory = "average";
+      } else {
+        sizeCategory = "large";
+      }
+    } else {
+      // Invalid type selected
+      return [];
+    }
+
+    // Filter the data based on the size category and suggest relevant items
+    const suggestedItems = data.filter((item) => {
+      if (item.type !== selectedItem.type) {
+        if (sizeCategory === "small") {
+          return (
+            (item.type === "shirt" &&
+              (item.size === "S" || item.size === "M")) ||
+            (item.type === "pants" && item.size < 38) ||
+            (item.type === "shoes" && item.size < 38)
+          );
+        } else if (sizeCategory === "average") {
+          return (
+            (item.type === "shirt" &&
+              (item.size === "M" || item.size === "L")) ||
+            (item.type === "pants" && item.size >= 38 && item.size <= 42) ||
+            (item.type === "shoes" && item.size >= 38 && item.size <= 42)
+          );
+        } else {
+          return (
+            (item.type === "shirt" &&
+              (item.size === "XL" || item.size === "XXL")) ||
+            (item.type === "pants" && item.size > 42) ||
+            (item.type === "shoes" && item.size > 42)
+          );
+        }
+      }
+      return false;
+    });
+    setShirts(suggestedItems.filter((item) => item.type === "shirt"));
+    setPants(suggestedItems.filter((item) => item.type === "pants"));
+    setShoes(suggestedItems.filter((item) => item.type === "shoes"));
+  };
+
   return (
     <div className="Garments">
       <Header title={"Garments"} />
@@ -139,6 +199,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
+                    suggestItems={handleSuggestItems}
                   />
                 </div>
               ))}
@@ -152,6 +213,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
+                    suggestItems={handleSuggestItems}
                   />{" "}
                 </div>
               ))}
@@ -165,6 +227,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
+                    suggestItems={handleSuggestItems}
                   />{" "}
                 </div>
               ))}
@@ -178,6 +241,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
+                    suggestItems={handleSuggestItems}
                   />{" "}
                 </div>
               ))}
