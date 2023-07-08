@@ -32,13 +32,14 @@ Dress Me App is designed to be responsive, ensuring a seamless experience across
 - HTML: Hypertext Markup Language for structuring the application
 
 ## The Algorithm
-Match me the size
+
+# Match me the size
 
 Based on the user decision the app compare the chosen item feature with sizing characteristics, the devision to different sizes was made using the sizing models at the market nowdays. 
 
 <img width="638" alt="image" src="https://github.com/romanbishof/dress-me-app/assets/76264579/9bfaae50-a216-4b36-9ba0-b480b38a5f9d">
-![image](https://github.com/romanbishof/dress-me-app/assets/76264579/763e2329-6ad0-4d55-85fc-10c443ff3eff)
-![image](https://github.com/romanbishof/dress-me-app/assets/76264579/ca5fca87-4906-453f-97a3-c55f9e7dfc17)
+<img width="785" alt="image" src="https://github.com/romanbishof/dress-me-app/assets/76264579/ad2b08e4-7d32-4daf-9604-3fb4139ec110">
+
 
 After the revision of the sizes in the market, and based on the fact that right now the app not basing it's suggestions on the gender of the person that builds the outfit - the division of the sizes has been done this way (based on the given data):
 <img width="707" alt="image" src="https://github.com/romanbishof/dress-me-app/assets/76264579/9decc007-efdb-48f1-8d5b-d7817e5e4f36">
@@ -48,15 +49,17 @@ small, avarage or large.
 for example - as you understand from the image: small for shirts of size S, shoes smaller than 38 and pants smaller than 38.
 each sizing catagory has it's sizing chart, and when users category defind, the algorithm filtering the items - so only relevant sizes will be displayed to this user. 
 
-# example: 
+` example: `
+The user choses a pents size 48 - in our algorithm the category of this size is "large",
+
 <img width="442" alt="image" src="https://github.com/romanbishof/dress-me-app/assets/76264579/47f22a7b-fc6e-406e-97ae-980c22f85091">
+
+` result ` 
+At the next step, the algorithm suggest's him a shoues from the same category, in this case, size 45.
 <img width="420" alt="image" src="https://github.com/romanbishof/dress-me-app/assets/76264579/912a065b-b9e3-433c-a6d2-7ff4cdb3331e">
 
 
-
-
-
-Match me the color
+# Match me the color
 
 
 
