@@ -31,38 +31,10 @@ Dress Me App is designed to be responsive, ensuring a seamless experience across
 - CSS: Cascading Style Sheets for styling the application.
 - HTML: Hypertext Markup Language for structuring the application
 
-### Folder Structure
+## The Algorithm
 
-Here's an overview of the folder structure of the project:
-```
-dress-me-app/
-  ├── public/
-  │   ├── index.html
-  │   └── ...
-  ├── src/
-  │   ├── components/
-  │   │   ├── OutfitRecommendations.js
-  │   │   ├── ClosetManagement.js
-  │   │   ├── UserProfile.js
-  │   │   └── ...
-  │   ├── containers/
-  │   │   ├── OutfitRecommendationsContainer.js
-  │   │   ├── ClosetManagementContainer.js
-  │   │   ├── UserProfileContainer.js
-  │   │   └── ...
-  │   ├── services/
-  │   │   ├── firebase.js
-  │   │   └── ...
-  │   ├── App.js
-  │   ├── index.js
-  │   └── ...
-  ├── .gitignore
-  ├── package.json
-  ├── README.md
-  └── ...
-```
 
-### To be developed
+# To be developed
 
 - Giving  the ability for users to categorize their outfits (e.g., formal, casual, work, etc.).
 - Setting up an uthantication and
@@ -73,7 +45,7 @@ dress-me-app/
 - Implement a feature to suggest outfit combinations based on selected items and user preferences.
 
 
-### Getting Started
+## Getting Started
 
 To run the app locally, follow the steps below:
 
