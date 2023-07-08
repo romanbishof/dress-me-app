@@ -39,8 +39,8 @@ const ClothesCard = ({ clothesItem, onItemSelected }) => {
   });
 
   return (
-    <div className={`ClothesCard `}>
-      <div className="w-[230px] h-[380px] bg-white m-auto relative overflow-hidden rounded-lg shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
+    <div className={`ClothesCard drop-shadow-shadowCard`}>
+      <div className="w-[230px] h-[380px] bg-white m-auto relative overflow-hidden rounded-2xl shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
         <div className="w-full h-full">
           <div className="top">
             <img src={imageOfProduct} alt={clothesItem.type} />

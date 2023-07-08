@@ -12,7 +12,7 @@ const SetCard = ({ set }) => {
 
   return (
     <div className="Container">
-      <div className="card">
+      <div className="rounded-3xl drop-shadow-shadowCard ">
         <div className="card-head flex flex-col  items-center">
           <span className="inline-block text-4xl font-extrabold mt-2 opacity-30 ">
             My Set

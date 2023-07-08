@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "../styles";
 import Filtering from "../components/Filtering";
 import ClothesCard from "../components/ClothesCard";
 import { useNavigate } from "react-router-dom";
 
 const Garments = () => {
-  const { data, filterSelection, garmentsPage, selectedColor, selectedSize } =
-    useSelector((state) => state.ClosetData);
+  const { data, filterSelection, selectedColor, selectedSize } = useSelector(
+    (state) => state.ClosetData
+  );
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     shoes: filterSelection.shoes,

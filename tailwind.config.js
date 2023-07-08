@@ -20,6 +20,9 @@ export default {
         "calc-30-minus-2": "calc(30% - 2px)",
         "calc-70-minus-40": "calc(70% - 40px)",
       },
+      dropShadow: {
+        shadowCard: "-11px 11px 1px rgba(0, 0, 0, 0.3)",
+      },
     },
     screens: {
       xs: "480px",

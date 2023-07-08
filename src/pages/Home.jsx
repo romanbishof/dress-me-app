@@ -17,7 +17,7 @@ function Home() {
         </h2>
 
         {/* div containig the buttons */}
-        <div className="Home__buttons flex md:flex-row flex-col justify-around  md:items-start items-center ">
+        <div className="Home__buttons sm:p-7 flex md:flex-row flex-col justify-around  md:items-start items-center ">
           <Card img={shirtImg} alt="shirt" />
 
           <Card img={pantsImg} alt="pants" />

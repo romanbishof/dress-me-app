@@ -14,12 +14,12 @@ const Card = ({ img, alt }) => {
   };
 
   return (
-    <div className="Card">
+    <div className="Card rounded-3xl drop-shadow-shadowCard mb-10">
       <div className="imgBox">
         <img src={img} alt={alt} className="clothesItem" />
       </div>
 
-      <div className="contentBox">
+      <div className="contentBox relative p-5 flex flex-col justify-center items-center ">
         <h3>{`Start with ${alt}`}</h3>
 
         <div

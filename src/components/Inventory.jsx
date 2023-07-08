@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import data from "../data.json";
 import styles from "../styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { shirtIcon, shoesIcon, trousersIcon } from "../assets";
 
 const Inventory = () => {
