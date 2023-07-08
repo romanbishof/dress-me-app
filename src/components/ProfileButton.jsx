@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { home } from "../assets";
+import { returnHome } from "../redux/ClosetSlice";
 
 const ProfileButton = () => {
   const { sets } = useSelector((state) => state.ClosetData);

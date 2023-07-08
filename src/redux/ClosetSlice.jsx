@@ -189,6 +189,11 @@ const ClosetDataSlice = createSlice({
                 pants: {},
                 shoes: {},
               };
+              state.filterSelection = {
+                shoes: false,
+                shirt: false,
+                pants: false,
+              };
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -211,6 +216,11 @@ const ClosetDataSlice = createSlice({
                 pants: {},
                 shoes: {},
               };
+              state.filterSelection = {
+                shoes: false,
+                shirt: false,
+                pants: false,
+              };
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -232,6 +242,11 @@ const ClosetDataSlice = createSlice({
                 pants: {},
                 shoes: {},
               };
+              state.filterSelection = {
+                shoes: false,
+                shirt: false,
+                pants: false,
+              };
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -241,7 +256,6 @@ const ClosetDataSlice = createSlice({
         default:
           break;
       }
-      console.log(current(state));
     },
     deleteSet: (state, action) => {
       state.sets = state.sets.filter((set) => set.id !== action.payload);

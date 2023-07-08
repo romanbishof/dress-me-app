@@ -1,41 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { clothesAddIcon, genericShirtImg } from "../assets";
-import styles from "../styles";
+import {
+  clothesAddIcon,
+  genericPantstImg,
+  genericShirtImg,
+  genericShoesImg,
+} from "../assets";
+
 import { useDispatch } from "react-redux";
 import { buildSet, filterGarmentsSelection } from "../redux/ClosetSlice";
-import axios from "axios";
 
-const ClothesCard = ({ clothesItem }) => {
-  const [imageUrl, setImageUrl] = useState("");
+const ClothesCard = ({ clothesItem, onItemSelected }) => {
   const dispatch = useDispatch();
+  const [imageOfProduct, setImageOfProduct] = useState("");
 
   const handleSelectItem = (clothesItem) => {
     dispatch(filterGarmentsSelection(clothesItem));
     dispatch(buildSet(clothesItem));
+    onItemSelected(clothesItem);
   };
 
-  // useEffect(() => {
-  //   const getRandomImage = async () => {
-  //     const response = await axios.get("https://api.unsplash.com/photos/", {
-  //       params: {
-  //         query: "red-t-shirt",
-  //         count: 20,
-  //         client_id: "uevmQyGwC88lhrHn3Ek-V0UoARFiHPeXEm9fkGBJuYg",
-  //       },
-  //     });
-  //     const image = response.data.urls.regular;
-  //     setImageUrl(image);
-  //   };
+  useEffect(() => {
+    switch (clothesItem.type) {
+      case "shirt":
+        setImageOfProduct(genericShirtImg);
+        break;
+      case "pants":
+        setImageOfProduct(genericPantstImg);
 
-  //   getRandomImage();
-  // }, []);
+        break;
+      case "shoes":
+        setImageOfProduct(genericShoesImg);
+
+        break;
+
+      default:
+        break;
+    }
+  });
 
   return (
     <div className={`ClothesCard `}>
       <div className="w-[230px] h-[380px] bg-white m-auto relative overflow-hidden rounded-lg shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
         <div className="w-full h-full">
           <div className="top">
-            <img src={genericShirtImg} alt="" />
+            <img src={imageOfProduct} alt={clothesItem.type} />
           </div>
           <div className="bottom w-[200%] h-[20%] transition duration-500">
             <div className="left  w-[50%] relative float-left h-full">
@@ -50,16 +58,12 @@ const ClothesCard = ({ clothesItem }) => {
                   handleSelectItem(clothesItem);
                 }}
               >
-                <img src={clothesAddIcon} alt="" className="p-4" />
+                <img src={clothesAddIcon} alt="button add" className="p-4" />
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* <div>
-        <h1>Random Red Shirt Image</h1>
-        {imageUrl && <img src={imageUrl} alt="Random Red Shirt" />}
-      </div> */}
     </div>
   );
 };

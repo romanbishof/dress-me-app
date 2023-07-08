@@ -15,7 +15,7 @@ function App() {
   });
 
   return (
-    <div className="App-home w-full overflow-hidden">
+    <div className="App-home w-full overflow-hidden pb-5">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/garments" element={<Garments />} />

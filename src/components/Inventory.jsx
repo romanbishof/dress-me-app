@@ -59,7 +59,7 @@ const Inventory = () => {
   // };
 
   return (
-    <div className="Inventory flex flex-row bg-gray-300 sm:px-0 px-0 py-1 text-black font-poppins font-semibold sm:text-[30px] text-[25px] sm:leading-[45px] leading-[25px]">
+    <div className="Inventory flex flex-row bg-gray-300 rounded-2xl sm:px-0 px-0 py-1 text-black font-poppins font-semibold sm:text-[30px] text-[25px] sm:leading-[45px] leading-[25px]">
       <div className="container border-r-4 border-black md:block hidden ">
         <div className={`${styles.flexCenter}`}>
           <p>{`In the stock`}</p>
