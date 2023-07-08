@@ -33,7 +33,7 @@ Dress Me App is designed to be responsive, ensuring a seamless experience across
 
 ## The Algorithm
 
-# Match me the size
+### Match me the size
 
 Based on the user decision the app compare the chosen item feature with sizing characteristics, the devision to different sizes was made using the sizing models at the market nowdays. 
 
@@ -59,7 +59,7 @@ At the next step, the algorithm suggest's him a shoues from the same category, i
 <img width="420" alt="image" src="https://github.com/romanbishof/dress-me-app/assets/76264579/912a065b-b9e3-433c-a6d2-7ff4cdb3331e">
 
 
-# Match me the color
+### Match me the color
 
 
 
