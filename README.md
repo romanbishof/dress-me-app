@@ -24,10 +24,12 @@ Dress Me App is designed to be responsive, ensuring a seamless experience across
 ### Technologies Used
 
 - React: JavaScript library for building user interfaces.
-- Redux: State management library for managing application state.
-- Firebase: Backend-as-a-Service (BaaS) platform for user authentication and data storage.
+- React-router-dom: library for page randering.
+- axios: library for performing API calls
+- uuid: library for generating uniq id
+- Redux.js/toolkit: State management library for managing application state.
 - CSS: Cascading Style Sheets for styling the application.
-- HTML: Hypertext Markup Language for structuring the application.
+- HTML: Hypertext Markup Language for structuring the application
 
 ### Folder Structure
 
