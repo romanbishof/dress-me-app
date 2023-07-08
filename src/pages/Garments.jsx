@@ -22,6 +22,69 @@ const Garments = () => {
   });
 
   const [firstOptionSelected, setFirstOptionSelected] = useState(false);
+  const colorPalette = [
+    "white",
+    "black",
+    "purple",
+    "gray",
+    "orange",
+    "yellow",
+    "brown",
+    "red",
+    "pink",
+    "green",
+  ];
+  const [userColor, setUserColor] = useState("");
+  // const [suggestedColors, setSuggestedColors] = useState([]);
+  // console.log(suggestedColors);
+
+  const handleColorChange = (item) => {
+    setUserColor(item.color);
+  };
+
+  const suggestColors = (itemColor) => {
+    const similarityScores = colorPalette.map((color) => {
+      const similarityScore = calculateSimilarity(itemColor, color);
+      return { color, similarityScore };
+    });
+
+    similarityScores.sort((a, b) => a.similarityScore - b.similarityScore);
+
+    const topSuggestions = similarityScores
+      .slice(1, 4)
+      .map((entry) => entry.color);
+
+    // If there are no color matches, return white and black
+    if (topSuggestions.length === 0) {
+      // setSuggestedColors(["white", "black"]);
+      return ["white", "black"];
+    } else {
+      // setSuggestedColors(topSuggestions);
+      return topSuggestions;
+    }
+  };
+
+  const calculateSimilarity = (color1, color2) => {
+    // Convert color1 and color2 to RGB values
+    const rgb1 = hexToRgb(color1);
+    const rgb2 = hexToRgb(color2);
+
+    // Calculate Euclidean distance between the two colors
+    const rDiff = Math.abs(rgb2.r - rgb1.r);
+    const gDiff = Math.abs(rgb2.g - rgb1.g);
+    const bDiff = Math.abs(rgb2.b - rgb1.b);
+    const avgDiff = (rDiff + gDiff + bDiff) / 3;
+    const distance = Math.sqrt(rDiff ** 2 + gDiff ** 2 + bDiff ** 2);
+
+    return avgDiff;
+  };
+
+  const hexToRgb = (hex) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return { r, g, b };
+  };
 
   //#region arrays
   const [shirts, setShirts] = useState(
@@ -37,6 +100,8 @@ const Garments = () => {
   );
 
   // #endregion
+
+  // #region phase1
 
   const [selectedShirt, setSelectedShirt] = useState(filterSelection.shirt);
   const [selectedPants, setSelectedPants] = useState(filterSelection.pants);
@@ -124,11 +189,14 @@ const Garments = () => {
   const filterShoesByColor = filterByColor(filterShoesBySize);
   // #endregion
 
-  const handleSuggestItems = (selectedItem) => {
+  const handleSuggestItemsBySize = (selectedItem) => {
     // Determine the person's size category based on the selected item's size
     let sizeCategory;
     const selectedType = selectedItem.type;
     const selectedSize = selectedItem.size;
+
+    let suggestedColors = suggestColors(selectedItem.color);
+    console.log(suggestedColors);
 
     if (selectedType === "shirt") {
       if (selectedSize === "S") {
@@ -183,6 +251,7 @@ const Garments = () => {
     setPants(suggestedItems.filter((item) => item.type === "pants"));
     setShoes(suggestedItems.filter((item) => item.type === "shoes"));
   };
+  //#endregion
 
   return (
     <div className="Garments">
@@ -203,7 +272,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
-                    suggestItems={handleSuggestItems}
+                    suggestItems={handleSuggestItemsBySize}
                   />
                 </div>
               ))}
@@ -217,7 +286,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
-                    suggestItems={handleSuggestItems}
+                    suggestItems={handleSuggestItemsBySize}
                   />{" "}
                 </div>
               ))}
@@ -231,7 +300,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
-                    suggestItems={handleSuggestItems}
+                    suggestItems={handleSuggestItemsBySize}
                   />{" "}
                 </div>
               ))}
@@ -245,7 +314,7 @@ const Garments = () => {
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
-                    suggestItems={handleSuggestItems}
+                    suggestItems={handleSuggestItemsBySize}
                   />{" "}
                 </div>
               ))}

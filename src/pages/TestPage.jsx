@@ -1,149 +1,85 @@
-import React, { useEffect, useState } from "react";
-import ColorThief from "colorthief/dist/color-thief.min.js";
-import {
-  closest,
-  furthest,
-  diff,
-  mapPalette,
-  paletteMapKey,
-  rgbaToLab,
-  mapPaletteLab,
-  labPaletteMapKey,
-} from "color-diff";
-import { colorWheel } from "../assets";
+import React, { useState } from "react";
 
-import colorNameList from "color-name-list";
-import * as ColorDiff from "color-diff";
-import color from "color";
-import { convert } from "color-convert";
 const TestPage = () => {
-  const [closetColors, setClosetColors] = useState([]);
-  const [colorPalette, setColorPalette] = useState([]);
-  const [closestMatches, setClosestMatches] = useState([]);
+  const colorPalette = [
+    "#000000",
+    "#ffffff",
+    "#800080",
+    "#808080",
+    "#ffa500",
+    "#ffff00",
+    "#a52a2a",
+    "#ff0000",
+    "#ffc0cb",
+    "#008000",
+  ];
+  const [userColor, setUserColor] = useState("");
+  const [suggestedColors, setSuggestedColors] = useState([]);
 
-  useEffect(() => {
-    // Set the closet colors
-    const closetColors = ["red", "green", "blue", "pink", "black"];
-    setClosetColors(closetColors);
+  const handleColorChange = (event) => {
+    console.log(event.target.value);
+    setUserColor(event.target.value);
+  };
 
-    // Load the color palette image
-    const image = new Image();
-    image.src = colorWheel;
-    image.addEventListener("load", () => {
-      setColorPalette(getColorPaletteFromImage(image));
-    });
-  }, []);
-
-  useEffect(() => {
-    if (closetColors.length > 0 && colorPalette.length > 0) {
-      findClosestMatches();
-    }
-  }, [closetColors, colorPalette]);
-
-  const getColorPaletteFromImage = (image) => {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-
-    // Set the canvas dimensions to match the image
-    canvas.width = image.width;
-    canvas.height = image.height;
-
-    // Draw the image onto the canvas
-    context.drawImage(image, 0, 0);
-
-    // Get the image data
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    const colorSet = new Set();
-
-    // Iterate through the pixels and extract unique colors
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-
-      // Create a unique color key using RGB values
-      const colorKey = `${r}-${g}-${b}`;
-
-      // Add the color key to the color set
-      colorSet.add(colorKey);
-    }
-
-    // Convert the color set to an array
-    const colorPalette = Array.from(colorSet).map((colorKey) => {
-      const [r, g, b] = colorKey.split("-").map(Number);
-      return { r, g, b };
+  const suggestColors = () => {
+    const similarityScores = colorPalette.map((color) => {
+      const similarityScore = calculateSimilarity(userColor, color);
+      return { color, similarityScore };
     });
 
-    return colorPalette;
-  };
+    similarityScores.sort((a, b) => a.similarityScore - b.similarityScore);
 
-  const findClosestMatches = () => {
-    const closestMatches = [];
+    const topSuggestions = similarityScores
+      .slice(1, 4)
+      .map((entry) => entry.color);
 
-    for (let i = 0; i < closetColors.length; i++) {
-      const colorName = closetColors[i];
-      const color = getColorFromName(colorName);
-      const closestMatch = ColorDiff.closest(color, colorPalette);
-      closestMatches.push(closestMatch);
+    // If there are no color matches, return white and black
+    if (topSuggestions.length === 0) {
+      setSuggestedColors(["white", "black"]);
+    } else {
+      setSuggestedColors(topSuggestions);
     }
-
-    setClosestMatches(closestMatches);
   };
 
-  //   const getColorFromName = (colorName) => {
-  //     switch (colorName) {
-  //       case "red":
-  //         return { r: 255, g: 0, b: 0 };
-  //       case "green":
-  //         return { r: 0, g: 255, b: 0 };
-  //       case "blue":
-  //         return { r: 0, g: 0, b: 255 };
-  //       // Add more color mappings as needed
-  //       default:
-  //         return { r: 0, g: 0, b: 0 }; // Default to black if the color name is not recognized
-  //     }
-  //   };
-  const colorNameToHex = {
-    red: "#FF0000",
-    green: "#00FF00",
-    blue: "#0000FF",
-    // Add more color name to hexadecimal code mappings as needed
+  const calculateSimilarity = (color1, color2) => {
+    // Convert color1 and color2 to RGB values
+    const rgb1 = hexToRgb(color1);
+    const rgb2 = hexToRgb(color2);
+
+    // Calculate Euclidean distance between the two colors
+    const rDiff = Math.abs(rgb2.r - rgb1.r);
+    const gDiff = Math.abs(rgb2.g - rgb1.g);
+    const bDiff = Math.abs(rgb2.b - rgb1.b);
+    const avgDiff = (rDiff + gDiff + bDiff) / 3;
+    const distance = Math.sqrt(rDiff ** 2 + gDiff ** 2 + bDiff ** 2);
+
+    return avgDiff;
   };
 
-  const getColorFromName = (colorName) => {
-    const lowercaseColorName = colorName.toLowerCase();
-
-    const colorObject = colorNameList.find(
-      (color) => color.name.toLowerCase() === lowercaseColorName
-    );
-
-    if (colorObject) {
-      return colorObject.hex;
-    }
-
-    return ""; // Return an empty string for unrecognized color names
+  const hexToRgb = (hex) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return { r, g, b };
   };
 
   return (
     <div>
-      <h1>Color Matching Results</h1>
-      {closestMatches.map((match, index) => (
-        <div key={index}>
-          <div
-            style={{
-              backgroundColor: `rgb(${match.r}, ${match.g}, ${match.b})`,
-              width: "50px",
-              height: "50px",
-              margin: "5px",
-            }}
-          ></div>
-          <p>
-            Closest Match: rgb({match.r}, {match.g}, {match.b})
-          </p>
-        </div>
-      ))}
+      <h2>Color Suggestion Algorithm</h2>
+      <label htmlFor="colorInput">Enter your color:</label>
+      <input
+        type="text"
+        id="colorInput"
+        value={userColor}
+        onChange={handleColorChange}
+      />
+      <button onClick={suggestColors}>Suggest Colors</button>
+      <h3>Suggested Colors:</h3>
+      <ul>
+        {suggestedColors.map((color, index) => (
+          <li key={index}>{color}</li>
+        ))}
+      </ul>
     </div>
   );
 };
