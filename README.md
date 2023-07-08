@@ -74,10 +74,10 @@ green => yellow, red, black, blue orange
 black and white will match everything in my case
 
 for our app --- the suggestion will be like this:
-for pink: green and pink
-for green: red green and pink 
-for red: green 
-black and white will be suggested if no color match was found, or black and white for black and white. 
+- for pink: green and pink
+- for green: red green and pink 
+- for red: green 
+- black and white will be suggested if no color match was found, or black and white for black and white. 
 
 # To be developed
 
