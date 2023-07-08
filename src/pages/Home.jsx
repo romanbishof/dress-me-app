@@ -2,7 +2,6 @@ import Header from "../components/Header";
 import Inventory from "../components/Inventory";
 import Card from "../components/Card";
 import { pantsImg, shirtImg, shoesImg } from "../assets";
-import styles from "../styles";
 
 function Home() {
   return (

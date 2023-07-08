@@ -19,11 +19,11 @@ const Sidebar = () => {
       ) : (
         <svg
           onClick={() => setShowSidebar(!showSidebar)}
-          className="fixed  z-30 flex items-center cursor-pointer right-10 top-9"
+          className=" z-30 flex items-center cursor-pointer right-10 top-9"
           fill="#000000"
           viewBox="0 0 100 80"
-          width="40"
-          height="40"
+          width="30"
+          height="30"
         >
           <rect width="100" height="10"></rect>
           <rect y="30" width="100" height="10"></rect>
@@ -32,7 +32,7 @@ const Sidebar = () => {
       )}
 
       <div
-        className={`flex flex-col top-0 right-0 w-[35vw] bg-blue-600  p-10 pl-20 text-white fixed h-full z-40  ease-in-out duration-300 ${
+        className={`flex flex-col top-0 right-0 w-[25vw] bg-blue-600  p-10 pl-20 text-white fixed h-full z-40  ease-in-out duration-300 ${
           showSidebar ? "translate-x-0 " : "translate-x-full"
         }`}
       >

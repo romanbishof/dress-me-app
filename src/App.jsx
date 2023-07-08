@@ -5,7 +5,7 @@ import { getClosetDataAsync } from "./redux/ClosetSlice";
 import Home from "./pages/Home";
 import Garments from "./pages/Garments";
 import MySpace from "./pages/MySpace";
-import TestPage from "./pages/TestPage";
+// import TestPage from "./pages/TestPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/garments" element={<Garments />} />
         <Route path="/my_space" element={<MySpace />} />
-        <Route path="/test-page" element={<TestPage />} />
+        {/* <Route path="/test-page" element={<TestPage />} /> */}
       </Routes>
     </div>
   );

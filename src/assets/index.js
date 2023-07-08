@@ -9,6 +9,7 @@ import genericPantstImg from "./genericPantsImg.webp";
 import genericShoesImg from "./genericShoesImg.webp";
 import clothesAddIcon from "./clothesAddIcon.png";
 import colorWheel from "./ColorWheel.webp";
+import home from "./Home.png";
 
 export {
   pantsImg,
@@ -22,4 +23,5 @@ export {
   genericShoesImg,
   clothesAddIcon,
   colorWheel,
+  home,
 };

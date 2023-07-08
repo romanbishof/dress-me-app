@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ColorThief from "colorthief/dist/color-thief.min.js";
 import {
   closest,
@@ -12,126 +12,138 @@ import {
 } from "color-diff";
 import { colorWheel } from "../assets";
 
+import colorNameList from "color-name-list";
+import * as ColorDiff from "color-diff";
+import color from "color";
+import { convert } from "color-convert";
 const TestPage = () => {
-  const [imageFile, setImageFile] = useState(null);
-  const [colors, setColors] = useState([]);
-  const [matchingColors, setMatchingColors] = useState([]);
+  const [closetColors, setClosetColors] = useState([]);
+  const [colorPalette, setColorPalette] = useState([]);
+  const [closestMatches, setClosestMatches] = useState([]);
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setImageFile(file);
-  };
+  useEffect(() => {
+    // Set the closet colors
+    const closetColors = ["red", "green", "blue", "pink", "black"];
+    setClosetColors(closetColors);
 
-  const handleColorInputChange = (event) => {
-    const colorList = event.target.value.split(",");
-    setColors(colorList.map((color) => color.trim()));
-  };
-
-  const generateMatchingColors = async () => {
-    if (imageFile && colors.length > 0) {
-      const colorPalette = await extractColorPalette(imageFile);
-      const matchingColors = matchColorsToPalette(colors, colorPalette);
-      setMatchingColors(matchingColors);
-    }
-  };
-
-  const extractColorPalette = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-        img.src = url;
-
-        img.onload = () => {
-          const colorThief = new ColorThief();
-          const colorPalette = colorThief.getPalette(img, 8); // Adjust the number of colors extracted as per your preference
-          resolve(colorPalette);
-          URL.revokeObjectURL(url);
-        };
-
-        img.onerror = (error) => {
-          reject(error);
-        };
-      };
-
-      reader.readAsDataURL(file);
+    // Load the color palette image
+    const image = new Image();
+    image.src = colorWheel;
+    image.addEventListener("load", () => {
+      setColorPalette(getColorPaletteFromImage(image));
     });
+  }, []);
+
+  useEffect(() => {
+    if (closetColors.length > 0 && colorPalette.length > 0) {
+      findClosestMatches();
+    }
+  }, [closetColors, colorPalette]);
+
+  const getColorPaletteFromImage = (image) => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    // Set the canvas dimensions to match the image
+    canvas.width = image.width;
+    canvas.height = image.height;
+
+    // Draw the image onto the canvas
+    context.drawImage(image, 0, 0);
+
+    // Get the image data
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    const colorSet = new Set();
+
+    // Iterate through the pixels and extract unique colors
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+
+      // Create a unique color key using RGB values
+      const colorKey = `${r}-${g}-${b}`;
+
+      // Add the color key to the color set
+      colorSet.add(colorKey);
+    }
+
+    // Convert the color set to an array
+    const colorPalette = Array.from(colorSet).map((colorKey) => {
+      const [r, g, b] = colorKey.split("-").map(Number);
+      return { r, g, b };
+    });
+
+    return colorPalette;
   };
 
-  const matchColorsToPalette = (closetColors, colorPalette) => {
-    const matchingColors = [];
+  const findClosestMatches = () => {
+    const closestMatches = [];
 
     for (let i = 0; i < closetColors.length; i++) {
-      const currentColor = closetColors[i];
-      const closestMatch = findClosestMatch(currentColor, colorPalette);
-      if (closestMatch) {
-        matchingColors.push(currentColor, closestMatch);
-      }
+      const colorName = closetColors[i];
+      const color = getColorFromName(colorName);
+      const closestMatch = ColorDiff.closest(color, colorPalette);
+      closestMatches.push(closestMatch);
     }
 
-    return matchingColors;
+    setClosestMatches(closestMatches);
   };
 
-  const findClosestMatch = (color, colorPalette) => {
-    const colorLab = colorDiff.rgb_to_lab(colorDiff.css_to_rgb(color));
+  //   const getColorFromName = (colorName) => {
+  //     switch (colorName) {
+  //       case "red":
+  //         return { r: 255, g: 0, b: 0 };
+  //       case "green":
+  //         return { r: 0, g: 255, b: 0 };
+  //       case "blue":
+  //         return { r: 0, g: 0, b: 255 };
+  //       // Add more color mappings as needed
+  //       default:
+  //         return { r: 0, g: 0, b: 0 }; // Default to black if the color name is not recognized
+  //     }
+  //   };
+  const colorNameToHex = {
+    red: "#FF0000",
+    green: "#00FF00",
+    blue: "#0000FF",
+    // Add more color name to hexadecimal code mappings as needed
+  };
 
-    let closestMatch = null;
-    let minDiff = Number.MAX_VALUE;
+  const getColorFromName = (colorName) => {
+    const lowercaseColorName = colorName.toLowerCase();
 
-    for (let i = 0; i < colorPalette.length; i++) {
-      const paletteColor = colorPalette[i];
-      const paletteLab = colorDiff.rgb_to_lab(paletteColor);
+    const colorObject = colorNameList.find(
+      (color) => color.name.toLowerCase() === lowercaseColorName
+    );
 
-      const diff = colorDiff.diff(colorLab, paletteLab);
-      if (diff < minDiff) {
-        minDiff = diff;
-        closestMatch = paletteColor;
-      }
+    if (colorObject) {
+      return colorObject.hex;
     }
 
-    return closestMatch;
+    return ""; // Return an empty string for unrecognized color names
   };
 
   return (
     <div>
-      <h1>Color Matching App</h1>
-      <div>
-        <label htmlFor="image-upload">Upload an Image:</label>
-        <input
-          type="file"
-          id="image-upload"
-          accept="image/*"
-          onChange={handleImageUpload}
-        />
-      </div>
-      <div>
-        <label htmlFor="color-input">Enter colors:</label>
-        <input
-          type="text"
-          id="color-input"
-          placeholder=" black, pink, red, white, green, gray, blue, purple, orange"
-          onChange={handleColorInputChange}
-        />
-      </div>
-      <button onClick={generateMatchingColors}>Generate Matching Colors</button>
-      {matchingColors.length > 0 && (
-        <div>
-          <h2>Matching Colors:</h2>
-          {matchingColors.map((color, index) => (
-            <div
-              key={index}
-              style={{
-                backgroundColor: color,
-                width: "50px",
-                height: "50px",
-                display: "inline-block",
-                margin: "5px",
-              }}
-            />
-          ))}
+      <h1>Color Matching Results</h1>
+      {closestMatches.map((match, index) => (
+        <div key={index}>
+          <div
+            style={{
+              backgroundColor: `rgb(${match.r}, ${match.g}, ${match.b})`,
+              width: "50px",
+              height: "50px",
+              margin: "5px",
+            }}
+          ></div>
+          <p>
+            Closest Match: rgb({match.r}, {match.g}, {match.b})
+          </p>
         </div>
-      )}
+      ))}
     </div>
   );
 };

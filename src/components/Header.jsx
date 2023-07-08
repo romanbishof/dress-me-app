@@ -1,29 +1,21 @@
 import React from "react";
 import Sidebar from "./SideBar";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { returnHome } from "../redux/ClosetSlice";
+import ProfileButton from "./ProfileButton";
 
 const Header = ({ title }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   return (
-    <div className="Header">
-      <div className={`Header-container flex border-b-2 justify-between`}>
-        {/* if home page ?  personal zone : or back   */}
-        <div className="flex justify-center bg-slate-400 w-[60px]">
-          <button
-            onClick={() => {
-              navigate("/");
-              dispatch(returnHome());
-            }}
-          >{`Home`}</button>
+    <div className="Header px-3 py-2 w-full max-h-20 border-b-2 border-yellow-200">
+      <div className={`Header-container flex items-center justify-between `}>
+        <div className="Header-sideBar ">
+          <ProfileButton />
         </div>
-        <h1 className="App-home_title flex font-poppins font-semibold ss:text-[42px] text-[42px] text-black ss:leading-[100.8px] leading-[75px]">
+        <h1 className="App-home_title flex justify-center font-poppins font-semibold ss:text-[42px] text-[42px] text-black ">
           <span>{title}</span>
         </h1>
-        <div className="Header-sideBar">
+        <div className="Header-sideBar ">
           <Sidebar />
         </div>
       </div>

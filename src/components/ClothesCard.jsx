@@ -1,16 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { clothesAddIcon, genericShirtImg } from "../assets";
 import styles from "../styles";
 import { useDispatch } from "react-redux";
 import { buildSet, filterGarmentsSelection } from "../redux/ClosetSlice";
+import axios from "axios";
 
 const ClothesCard = ({ clothesItem }) => {
+  const [imageUrl, setImageUrl] = useState("");
   const dispatch = useDispatch();
 
   const handleSelectItem = (clothesItem) => {
     dispatch(filterGarmentsSelection(clothesItem));
     dispatch(buildSet(clothesItem));
   };
+
+  // useEffect(() => {
+  //   const getRandomImage = async () => {
+  //     const response = await axios.get("https://api.unsplash.com/photos/", {
+  //       params: {
+  //         query: "red-t-shirt",
+  //         count: 20,
+  //         client_id: "uevmQyGwC88lhrHn3Ek-V0UoARFiHPeXEm9fkGBJuYg",
+  //       },
+  //     });
+  //     const image = response.data.urls.regular;
+  //     setImageUrl(image);
+  //   };
+
+  //   getRandomImage();
+  // }, []);
+
   return (
     <div className={`ClothesCard `}>
       <div className="w-[230px] h-[380px] bg-white m-auto relative overflow-hidden rounded-lg shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
@@ -37,6 +56,10 @@ const ClothesCard = ({ clothesItem }) => {
           </div>
         </div>
       </div>
+      {/* <div>
+        <h1>Random Red Shirt Image</h1>
+        {imageUrl && <img src={imageUrl} alt="Random Red Shirt" />}
+      </div> */}
     </div>
   );
 };
