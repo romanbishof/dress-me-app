@@ -123,66 +123,67 @@ const Garments = () => {
   return (
     <div className="Garments">
       <Header title={"Garments"} />
-      <div className="Garments-body flex flex-col sm:px-10">
+      <div className="Garments-body flex flex-col">
         <div
-          className={`Garments-filterOption ${styles.text} ${styles.flexCenter} flex-row`}
+          className={`Garments-body__filterOption ${styles.text} ${styles.flexCenter} flex-row`}
         >
           <Filtering filterType={"color"} />
 
           <Filtering filterType={"size"} />
         </div>
+        <div className="Garments-body__Card p-10">
+          {allFiltersUnchecked && !firstOptionSelected && (
+            <div className="Garments-showroom  flex flex-row flex-wrap justify-center ">
+              {data?.map((item) => (
+                <div className="Garments-body__showroom mr-10" key={item.id}>
+                  <ClothesCard
+                    clothesItem={item}
+                    onItemSelected={handleItemSelected}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
 
-        {allFiltersUnchecked && !firstOptionSelected && (
-          <div className="Garments-showroom flex flex-row flex-wrap justify-center ">
-            {data?.map((item) => (
-              <div className="mr-5" key={item.id}>
-                <ClothesCard
-                  clothesItem={item}
-                  onItemSelected={handleItemSelected}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+          {filterSelection.shirt && (
+            <div className="Garments-showroom flex flex-row flex-wrap justify-center ">
+              {filterShirtByColor.map((item) => (
+                <div className="Garments-body__showroom mr-10" key={item.id}>
+                  <ClothesCard
+                    clothesItem={item}
+                    onItemSelected={handleItemSelected}
+                  />{" "}
+                </div>
+              ))}
+            </div>
+          )}
 
-        {filterSelection.shirt && (
-          <div className="Garments-showroom flex flex-row flex-wrap justify-center ">
-            {filterShirtByColor.map((item) => (
-              <div className="mr-5" key={item.id}>
-                <ClothesCard
-                  clothesItem={item}
-                  onItemSelected={handleItemSelected}
-                />{" "}
-              </div>
-            ))}
-          </div>
-        )}
+          {filterSelection.pants && (
+            <div className="Garments-showroom flex flex-row flex-wrap justify-center ">
+              {filterpantsByColor.map((item) => (
+                <div className="Garments-body__showroom mr-10" key={item.id}>
+                  <ClothesCard
+                    clothesItem={item}
+                    onItemSelected={handleItemSelected}
+                  />{" "}
+                </div>
+              ))}
+            </div>
+          )}
 
-        {filterSelection.pants && (
-          <div className="Garments-showroom flex flex-row flex-wrap justify-center ">
-            {filterpantsByColor.map((item) => (
-              <div key={item.id}>
-                <ClothesCard
-                  clothesItem={item}
-                  onItemSelected={handleItemSelected}
-                />{" "}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {filterSelection.shoes && (
-          <div className="Garments-showroom flex flex-row flex-wrap  justify-center">
-            {filterShoesByColor.map((item) => (
-              <div key={item.id}>
-                <ClothesCard
-                  clothesItem={item}
-                  onItemSelected={handleItemSelected}
-                />{" "}
-              </div>
-            ))}
-          </div>
-        )}
+          {filterSelection.shoes && (
+            <div className="Garments-showroom flex flex-row flex-wrap  justify-center">
+              {filterShoesByColor.map((item) => (
+                <div className="Garments-body__showroom mr-10" key={item.id}>
+                  <ClothesCard
+                    clothesItem={item}
+                    onItemSelected={handleItemSelected}
+                  />{" "}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

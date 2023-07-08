@@ -8,6 +8,7 @@ import {
 
 import { useDispatch } from "react-redux";
 import { buildSet, filterGarmentsSelection } from "../redux/ClosetSlice";
+import styles from "../styles";
 
 const ClothesCard = ({ clothesItem, onItemSelected }) => {
   const dispatch = useDispatch();
@@ -39,16 +40,24 @@ const ClothesCard = ({ clothesItem, onItemSelected }) => {
   });
 
   return (
-    <div className={`ClothesCard drop-shadow-shadowCard`}>
-      <div className="w-[230px] h-[380px] bg-white m-auto relative overflow-hidden rounded-2xl shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
+    <div className={`ClothesCard drop-shadow-shadowCard pb-4`}>
+      <div className="w-[230px]  bg-white m-auto relative overflow-hidden rounded-2xl shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
         <div className="w-full h-full">
-          <div className="top">
-            <img src={imageOfProduct} alt={clothesItem.type} />
+          <div className={`${styles.cardTop} bg-none`}>
+            <span className="inline-block text-xl font-extrabold mt-2 opacity-30 ml-2">
+              {clothesItem.brand}
+            </span>
+            <div className="product-detail  flex flex-col mt-1 items-center">
+              <img
+                className="h-60 w-full"
+                src={imageOfProduct}
+                alt={clothesItem.type}
+              />
+            </div>
           </div>
           <div className="bottom w-[200%] h-[20%] transition duration-500">
             <div className="left  w-[50%] relative float-left h-full">
-              <div className="details ml-3 float-left w-calc-70-minus-40">
-                <h4>{clothesItem.brand}</h4>
+              <div className="details ml-3 float-left w-calc-70-minus-40 mt-2">
                 <h4>{clothesItem.size}</h4>
                 <h4>{clothesItem.color}</h4>
               </div>

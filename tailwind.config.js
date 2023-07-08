@@ -12,6 +12,7 @@ export default {
         card: "#191919",
         cardBefore: "#ffce00",
         addCloth: "#A6CDDE",
+        cardSetBg: "#fa782e",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

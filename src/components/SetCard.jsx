@@ -13,7 +13,7 @@ const SetCard = ({ set }) => {
   return (
     <div className="Container">
       <div className="rounded-3xl drop-shadow-shadowCard ">
-        <div className="card-head flex flex-col  items-center">
+        <div className={`${styles.cardTop} pb-3 flex flex-col  items-center`}>
           <span className="inline-block text-4xl font-extrabold mt-2 opacity-30 ">
             My Set
           </span>
@@ -22,7 +22,7 @@ const SetCard = ({ set }) => {
             <h2 className="text-xs text-white tracking-widest uppercase">{`elapsed time: ${set.elapsedTime}`}</h2>
           </div>
         </div>
-        <div className="card-body h-[230px] rounded-b-3xl bg-white flex flex-col items-center">
+        <div className="card-body h-[200px] rounded-b-3xl bg-white flex flex-col items-center">
           <div className="product-desc flex flex-row space-x-3 h-[200px] mt-2 border-b-2 ">
             <div className={`flex flex-col items-center w-full `}>
               <img src={shirtIcon} alt="" className="w-6 h-6" />
@@ -50,11 +50,9 @@ const SetCard = ({ set }) => {
                 <h4>{`Color: ${set.shoes.color}`}</h4>
               </span>
             </div>
-
-            {/* <span className="product-caption">Basket Ball Collection</span> */}
           </div>
           <div
-            className="cursor-pointer"
+            className="cursor-pointer flex justify-center items-center w-full py-2 hover:bg-addCloth rounded-3xl rounded-t-none  "
             onClick={() => {
               handleDeletSet(set);
             }}

@@ -22,7 +22,8 @@ const styles = {
   button:
     "py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-gray-200 rounded-full border border-gray-300 hover:bg-gray-300 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200",
   card: "relative w-[320px] h-[480px] bg-card rounded-3xl overflow-hidden",
-  cardBefore: "",
+  cardTop:
+    "relative h-100 bg-gradient-to-br from-yellow-500 via-red-600 to-red-900 rounded-t-3xl",
 };
 
 export const layout = {
