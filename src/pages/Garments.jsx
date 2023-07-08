@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles";
 import Filtering from "../components/Filtering";
 import ClothesCard from "../components/ClothesCard";
 import { useNavigate } from "react-router-dom";
+import { setBuild } from "../redux/ClosetSlice";
 
 const Garments = () => {
   const { data, filterSelection, selectedColor, selectedSize } = useSelector(
@@ -12,6 +13,8 @@ const Garments = () => {
   );
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [filters, setFilters] = useState({
     shoes: filterSelection.shoes,
     shirt: filterSelection.shirt,
@@ -24,15 +27,15 @@ const Garments = () => {
   const [shirts, setShirts] = useState(
     data?.filter((item) => item.type === "shirt")
   );
-  // console.log(shirts);
+
   const [pants, setPants] = useState(
     data?.filter((item) => item.type === "pants")
   );
-  // console.log(pants);
+
   const [shoes, setShoes] = useState(
     data?.filter((item) => item.type === "shoes")
   );
-  // console.log(shoes);
+
   // #endregion
 
   const [selectedShirt, setSelectedShirt] = useState(filterSelection.shirt);
@@ -77,6 +80,7 @@ const Garments = () => {
 
   useEffect(() => {
     if (selectedShirt && selectedPants && selectedShoes) {
+      dispatch(setBuild(true));
       // All items are selected, trigger the redirection
       navigate("/my_space");
       localStorage.setItem("startTime", JSON.stringify(""));
@@ -148,7 +152,7 @@ const Garments = () => {
     }
 
     // Filter the data based on the size category and suggest relevant items
-    const suggestedItems = data.filter((item) => {
+    const suggestedItems = data?.filter((item) => {
       if (item.type !== selectedItem.type) {
         if (sizeCategory === "small") {
           return (

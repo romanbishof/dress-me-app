@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import SetCard from "../components/SetCard";
 
@@ -13,7 +13,7 @@ const MySpace = () => {
   return (
     <div className="MySpace">
       <Header title={"My Space"} />
-      <div className="MySpace-body flex flex-row flex-wrap justify-center p-10">
+      <div className="MySpace-body flex flex-row flex-wrap justify-center p-0">
         {sets?.map((item) => {
           return (
             <div className="MySpace-body__card mr-10" key={item.id + "q"}>

@@ -7,7 +7,7 @@ import { deleteSet } from "../redux/ClosetSlice";
 const SetCard = ({ set }) => {
   const dispatch = useDispatch();
   const handleDeletSet = (_set) => {
-    dispatch(deleteSet(_set.id));
+    dispatch(deleteSet(_set));
   };
 
   return (

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
@@ -9,16 +9,8 @@ export const getClosetDataAsync = createAsyncThunk(
     let res;
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      res = await axios.get(
-        `https://run.mocky.io/v3/2d06d2c1-5a77-4ecd-843a-53247bcb0b94`
-      );
-      const newData = res.data;
-      // Compare the fetched data with the stored data
-      if (JSON.stringify(newData) !== JSON.stringify(parsedData)) {
-        // Update local storage with new data
-        localStorage.setItem("closetData", JSON.stringify(newData));
-      }
-      return newData;
+
+      return parsedData;
     } else {
       res = await axios.get(
         `https://run.mocky.io/v3/2d06d2c1-5a77-4ecd-843a-53247bcb0b94`
@@ -95,6 +87,17 @@ function elapsedTime(startTime) {
     .padStart(2, "0")} `;
 }
 
+function deletClothesFromData(data, set) {
+  const newData = data.filter(
+    (setClothes) =>
+      setClothes.id !== set.shirt.id &&
+      setClothes.id !== set.pants.id &&
+      setClothes.id !== set.shoes.id
+  );
+  localStorage.setItem("data", JSON.stringify(newData));
+  return newData;
+}
+
 const initialValues = {
   data: [],
   shirts: 0,
@@ -111,6 +114,7 @@ const initialValues = {
   shoesSelected: true,
   itemsTypesObj: {},
   garmentsPage: false,
+  checkSetBuild: false,
   selectedColor: "",
   selectedSize: "",
   sets: [],
@@ -183,6 +187,17 @@ const ClosetDataSlice = createSlice({
               state.set["id"] = uuidv4();
               state.set["elapsedTime"] = elapsedTime(state.startTime);
 
+              state.data = deletClothesFromData(state.data, state.set);
+
+              state.shirts = countClothes(state.data, "shirt");
+              localStorage.setItem("shirt", JSON.stringify(state.shirts));
+
+              state.pants = countClothes(state.data, "pants");
+              localStorage.setItem("pants", JSON.stringify(state.pants));
+
+              state.shoes = countClothes(state.data, "shoes");
+              localStorage.setItem("shoes", JSON.stringify(state.shoes));
+
               state.sets = [...state.sets, state.set];
               state.set = {
                 shirt: {},
@@ -210,6 +225,17 @@ const ClosetDataSlice = createSlice({
               state.set["id"] = uuidv4();
               state.set["elapsedTime"] = elapsedTime(state.startTime);
 
+              state.data = deletClothesFromData(state.data, state.set);
+
+              state.shirts = countClothes(state.data, "shirt");
+              localStorage.setItem("shirt", JSON.stringify(state.shirts));
+
+              state.pants = countClothes(state.data, "pants");
+              localStorage.setItem("pants", JSON.stringify(state.pants));
+
+              state.shoes = countClothes(state.data, "shoes");
+              localStorage.setItem("shoes", JSON.stringify(state.shoes));
+
               state.sets = [...state.sets, state.set];
               state.set = {
                 shirt: {},
@@ -236,6 +262,18 @@ const ClosetDataSlice = createSlice({
               state.set["date"] = date;
               state.set["id"] = uuidv4();
               state.set["elapsedTime"] = elapsedTime(state.startTime);
+
+              state.data = deletClothesFromData(state.data, state.set);
+
+              state.shirts = countClothes(state.data, "shirt");
+              localStorage.setItem("shirt", JSON.stringify(state.shirts));
+
+              state.pants = countClothes(state.data, "pants");
+              localStorage.setItem("pants", JSON.stringify(state.pants));
+
+              state.shoes = countClothes(state.data, "shoes");
+              localStorage.setItem("shoes", JSON.stringify(state.shoes));
+
               state.sets = [...state.sets, state.set];
               state.set = {
                 shirt: {},
@@ -258,7 +296,23 @@ const ClosetDataSlice = createSlice({
       }
     },
     deleteSet: (state, action) => {
-      state.sets = state.sets.filter((set) => set.id !== action.payload);
+      state.data = [
+        ...state.data,
+        action.payload.shirt,
+        action.payload.pants,
+        action.payload.shoes,
+      ];
+
+      state.shirts = countClothes(state.data, "shirt");
+      localStorage.setItem("shirt", JSON.stringify(state.shirts));
+
+      state.pants = countClothes(state.data, "pants");
+      localStorage.setItem("pants", JSON.stringify(state.pants));
+
+      state.shoes = countClothes(state.data, "shoes");
+      localStorage.setItem("shoes", JSON.stringify(state.shoes));
+      state.sets = state.sets.filter((set) => set.id !== action.payload.id);
+      localStorage.setItem("sets", JSON.stringify(state.sets));
     },
     filterGarmentsSelection: (state, action) => {
       switch (action.payload.type) {
@@ -297,13 +351,23 @@ const ClosetDataSlice = createSlice({
           break;
       }
     },
+    setBuild: (state, action) => {
+      state.checkSetBuild = action.payload;
+    },
   },
   extraReducers: {
     [getClosetDataAsync.fulfilled]: (state, action) => {
       state.data = action.payload;
-      state.shirts = countClothes(action.payload, "shirt");
-      state.pants = countClothes(action.payload, "pants");
-      state.shoes = countClothes(action.payload, "shoes");
+
+      state.shirts = countClothes(state.data, "shirt");
+      localStorage.setItem("shirt", JSON.stringify(state.shirts));
+
+      state.pants = countClothes(state.data, "pants");
+      localStorage.setItem("pants", JSON.stringify(state.pants));
+
+      state.shoes = countClothes(state.data, "shoes");
+      localStorage.setItem("shoes", JSON.stringify(state.shoes));
+
       state.shirtsArray = action.payload.filter(
         (item) => item.type === "shirt"
       );
@@ -333,6 +397,7 @@ export const {
   buildSet,
   deleteSet,
   filterGarmentsSelection,
+  setBuild,
 } = ClosetDataSlice.actions;
 
 export default ClosetDataSlice.reducer;
