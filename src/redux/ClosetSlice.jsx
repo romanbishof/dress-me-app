@@ -9,8 +9,12 @@ export const getClosetDataAsync = createAsyncThunk(
     let res;
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-
-      return parsedData;
+      const currentData = JSON.parse(localStorage.getItem("data"));
+      if (currentData.length !== parsedData.length) {
+        return currentData;
+      } else {
+        return parsedData;
+      }
     } else {
       res = await axios.get(
         `https://run.mocky.io/v3/2d06d2c1-5a77-4ecd-843a-53247bcb0b94`
