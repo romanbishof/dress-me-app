@@ -9,12 +9,18 @@ export const getClosetDataAsync = createAsyncThunk(
     let res;
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      const currentData = JSON.parse(localStorage.getItem("data"));
-      if (currentData.length !== parsedData.length) {
-        return currentData;
+      const currentData = localStorage.getItem("data");
+      if (currentData) {
+        const parsedCurrentData = JSON.parse(currentData);
+
+        if (parsedCurrentData.length !== parsedData.length) {
+          return parsedCurrentData;
+        }
       } else {
+        localStorage.setItem("data", JSON.stringify([]));
         return parsedData;
       }
+      // return parsedData;
     } else {
       res = await axios.get(
         `https://run.mocky.io/v3/2d06d2c1-5a77-4ecd-843a-53247bcb0b94`
@@ -118,7 +124,6 @@ const initialValues = {
   shoesSelected: true,
   itemsTypesObj: {},
   garmentsPage: false,
-  checkSetBuild: false,
   selectedColor: "",
   selectedSize: "",
   sets: [],
@@ -164,6 +169,11 @@ const ClosetDataSlice = createSlice({
         shoes: false,
         shirt: false,
         pants: false,
+      };
+      state.set = {
+        shirt: {},
+        pants: {},
+        shoes: {},
       };
       state.garmentsPage = false;
       state.startTime = null;
@@ -213,6 +223,7 @@ const ClosetDataSlice = createSlice({
                 shirt: false,
                 pants: false,
               };
+              localStorage.setItem("data", JSON.stringify(state.data));
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -251,6 +262,7 @@ const ClosetDataSlice = createSlice({
                 shirt: false,
                 pants: false,
               };
+              localStorage.setItem("data", JSON.stringify(state.data));
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -289,6 +301,7 @@ const ClosetDataSlice = createSlice({
                 shirt: false,
                 pants: false,
               };
+              localStorage.setItem("data", JSON.stringify(state.data));
 
               localStorage.setItem("sets", JSON.stringify(state.sets));
             }
@@ -354,9 +367,6 @@ const ClosetDataSlice = createSlice({
         default:
           break;
       }
-    },
-    setBuild: (state, action) => {
-      state.checkSetBuild = action.payload;
     },
   },
   extraReducers: {

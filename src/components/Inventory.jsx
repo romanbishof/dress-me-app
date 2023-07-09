@@ -11,6 +11,7 @@ const Inventory = () => {
     pants: pants,
     shoes: shoes,
   });
+  console.log(closet);
   useEffect(() => {
     setCloset({
       shirts: shirts,
