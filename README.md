@@ -63,8 +63,21 @@ In the given data set we have 5 colors - pink, red, green, black and white
 i tried to find a solution which will use the different color libraries - like colordiff and color-thieff that will use a colorpallette wheel uploaded, and using it will suggest the best color match, but in our data we have lack of colors =) so i implemented a simplified option:
 this is the wheel:
 
+![image](https://github.com/romanbishof/dress-me-app/assets/76264579/5f1d2e0d-f484-41f0-b6ac-e5c6afbf4f7d)
+
 and took the best two matches, or black and white if we don't have this color in the closet:
 the match by the wheel is like this:
+
+pink => pink, blue, green
+red => red, orange, yellow, green, brown an so on
+green => yellow, red, black, blue orange
+black and white will match everything in my case
+
+for our app --- the suggestion will be like this:
+- for pink: green and pink
+- for green: red green and pink 
+- for red: green 
+- black and white will be suggested if no color match was found, or black and white for black and white. 
 
 # To be developed
 
