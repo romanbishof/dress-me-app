@@ -3,6 +3,7 @@ import styles from "../styles";
 import { useSelector } from "react-redux";
 import { shirtIcon, shoesIcon, trousersIcon } from "../assets";
 
+// responsible for shoing our current inventory in the closet, on the home page
 const Inventory = () => {
   const { shirts, pants, shoes } = useSelector((state) => state.ClosetData);
 
@@ -11,6 +12,8 @@ const Inventory = () => {
     pants: pants,
     shoes: shoes,
   });
+
+  // update the inventory on change in the inventory
   useEffect(() => {
     setCloset({
       shirts: shirts,

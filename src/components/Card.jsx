@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { filterSelectionFrom, navigateToGarments } from "../redux/ClosetSlice";
 
+// Home Card component
 const Card = ({ img, alt }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,11 +20,11 @@ const Card = ({ img, alt }) => {
         <img src={img} alt={alt} className="clothesItem" />
       </div>
 
-      <div className="contentBox relative p-5 flex flex-col justify-center items-center ">
+      <div className="Card-body contentBox relative p-5 flex flex-col justify-center items-center ">
         <h3>{`Start with ${alt}`}</h3>
 
         <div
-          className="start cursor-pointer"
+          className="Card-action start cursor-pointer"
           onClick={() => {
             handleCardSelect(alt);
           }}

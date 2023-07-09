@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { home } from "../assets";
 import { returnHome } from "../redux/ClosetSlice";
 
+// our profile button that show how mane build sets we have,
+// in home component it show how mane set we have, in any other its a button to retun to home
 const ProfileButton = () => {
   const { sets } = useSelector((state) => state.ClosetData);
 

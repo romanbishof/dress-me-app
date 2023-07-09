@@ -3,6 +3,7 @@ import Inventory from "../components/Inventory";
 import Card from "../components/Card";
 import { pantsImg, shirtImg, shoesImg } from "../assets";
 
+// home page where the user can select from witch item he wants to start biling our set
 function Home() {
   return (
     <div className="Home w-full overflow-hidden">

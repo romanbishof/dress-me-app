@@ -10,17 +10,24 @@ import { useDispatch } from "react-redux";
 import { buildSet, filterGarmentsSelection } from "../redux/ClosetSlice";
 import styles from "../styles";
 
+// each clothing item card in the garments component
 const ClothesCard = ({ clothesItem, onItemSelected, suggestItems }) => {
   const dispatch = useDispatch();
   const [imageOfProduct, setImageOfProduct] = useState("");
 
   const handleSelectItem = (clothesItem) => {
+    console.log(clothesItem);
+    // filterGarmentsSelection is algorithem to determen the next item for picking our set
     dispatch(filterGarmentsSelection(clothesItem));
+    // function to add item to our set
     buildSetFunction(clothesItem);
+
+    //two callback functions for logic in the garments that responsible for rendering components
     onItemSelected(clothesItem);
     suggestItems(clothesItem);
   };
 
+  // function to add item to our set
   const buildSetFunction = (clothesItem) => {
     switch (clothesItem.type) {
       case "shirt":

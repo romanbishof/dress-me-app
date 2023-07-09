@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import SetCard from "../components/SetCard";
 
+// the component renders our build sets
 const MySpace = () => {
   const { sets } = useSelector((state) => state.ClosetData);
 

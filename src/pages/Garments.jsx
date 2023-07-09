@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles";
 import Filtering from "../components/Filtering";
 import ClothesCard from "../components/ClothesCard";
-import { useNavigate } from "react-router-dom";
-import AlertSetBuild from "../components/AlertSetBuild";
 import SuccesSetBuild from "../components/SuccesSetBuild";
 import { buildSet } from "../redux/ClosetSlice";
 
+// the component that renders our "main" component where user selects the items he wants to build the sets,
+// and the app suggest relevent clothing items
 const Garments = () => {
   const {
     data,
@@ -20,7 +20,6 @@ const Garments = () => {
     shoesArray,
   } = useSelector((state) => state.ClosetData);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   //#region arrays local state variables
@@ -63,6 +62,7 @@ const Garments = () => {
   //upon select 3 item from each category go to next page
   useEffect(() => {
     window.scrollTo(0, 0);
+    // on page reload start building the set from start
     localStorage.setItem("startTime", JSON.stringify(new Date().getTime()));
     localStorage.setItem(
       "set",
@@ -76,8 +76,8 @@ const Garments = () => {
   }, []);
 
   useEffect(() => {
+    // once all items selectd trigger msg and save in state and localy
     if (selectedShirt && selectedPants && selectedShoes) {
-      // All items are selected, trigger the redirection
       setSuccesMsg(true);
       dispatch(buildSet(JSON.parse(localStorage.getItem("set"))));
       localStorage.setItem("startTime", JSON.stringify(""));
@@ -85,6 +85,7 @@ const Garments = () => {
   }, [filterSelection.shirt, filterSelection.pants, filterSelection.shoes]);
   //#endregion
 
+  // logic to check wich item still need to be selected
   const handleItemSelected = (item) => {
     switch (item.type) {
       case "shirt":
@@ -121,13 +122,13 @@ const Garments = () => {
   const filterShoesByColor = filterByColor(filterShoesBySize);
   // #endregion
 
-  // algorithem to sugest clothes by size
+  // algorithem to sugest clothes by size and color -> but the color is commented out
   const handleSuggestItems = (selectedItem) => {
     // Determine the person's size category based on the selected item's size
     let sizeCategory;
     const selectedType = selectedItem.type;
     const selectedSize = selectedItem.size;
-
+    //define the persons size
     if (selectedType === "shirt") {
       if (selectedSize === "S") {
         sizeCategory = "small";
@@ -258,7 +259,6 @@ const Garments = () => {
           </div>
         ) : (
           <div className="mt-4">
-            {/* <AlertSetBuild /> */}
             <SuccesSetBuild />
           </div>
         )}

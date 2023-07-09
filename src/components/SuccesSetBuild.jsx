@@ -1,8 +1,7 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { buildSet } from "../redux/ClosetSlice";
 
+// message alert for when we build the set and save it in our sets
 const SuccesSetBuild = () => {
   const navigate = useNavigate();
 

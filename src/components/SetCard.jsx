@@ -4,8 +4,11 @@ import styles from "../styles";
 import { useDispatch } from "react-redux";
 import { deleteSet } from "../redux/ClosetSlice";
 
+// the component thats the card of our build set that inside the mySpace page
 const SetCard = ({ set }) => {
   const dispatch = useDispatch();
+
+  // delete the set and add the removed items back in the closet
   const handleDeletSet = (_set) => {
     dispatch(deleteSet(_set));
   };

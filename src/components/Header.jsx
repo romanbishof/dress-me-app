@@ -3,6 +3,7 @@ import Sidebar from "./SideBar";
 
 import ProfileButton from "./ProfileButton";
 
+// our header comonent its global for all page
 const Header = ({ title }) => {
   return (
     <div className="Header px-3 w-full max-h-[70px] border-b-2 border-yellow-200">

@@ -64,15 +64,6 @@ function filterSizesColors(data) {
   return typeObjects;
 }
 
-function checkEmptyObjects(set) {
-  for (let item in set) {
-    if (Object.keys(set[item]).length === 0) {
-      return false;
-    }
-  }
-  return true;
-}
-
 function getCurrentDate() {
   const currentDate = new Date();
   const day = currentDate.getDate();
@@ -245,7 +236,7 @@ const ClosetDataSlice = createSlice({
             state.filterSelection.shirt = false;
             if (Object.keys(setObj.pants).length === 0) {
               state.filterSelection.pants = true;
-            } else {
+            } else if (Object.keys(setObj.shoes).length === 0) {
               state.filterSelection.shoes = true;
             }
           }

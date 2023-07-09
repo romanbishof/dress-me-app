@@ -74,10 +74,11 @@ green => yellow, red, black, blue orange
 black and white will match everything in my case
 
 for our app --- the suggestion will be like this:
+
 - for pink: green and pink
-- for green: red green and pink 
-- for red: green 
-- black and white will be suggested if no color match was found, or black and white for black and white. 
+- for green: red green and pink
+- for red: green and red
+- black and white will be suggested for all colors.
 
 # To be developed
 
@@ -87,6 +88,7 @@ for our app --- the suggestion will be like this:
 - change the platform to multi-users platform
 - Implement a search feature to quickly find specific items in the collection or closet.
 - Allow users to upload and save their own images for shirts, pants, and shoes.
+- Also possibility to categorize each clothing item the user uploaded (e.g., formal, casual, work, etc.)
 - Provide the option to share outfits on social media platforms.
 - Implement a feature to suggest outfit combinations based on selected items and user preferences.
 

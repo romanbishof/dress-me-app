@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { navigateToGarments, returnHome } from "../redux/ClosetSlice";
 
+// sidebar component
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const navigate = useNavigate();

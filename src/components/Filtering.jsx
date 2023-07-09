@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedColor, setSelectedSize } from "../redux/ClosetSlice";
 
+// the component thats responsible for filtering options in the garments component the select element
 const Filtering = ({ filterType }) => {
   const { filterSelection, itemsTypesObj } = useSelector(
     (state) => state.ClosetData
@@ -9,11 +10,13 @@ const Filtering = ({ filterType }) => {
 
   const dispatch = useDispatch();
 
+  // geting all our values by types that exist in our data
   const values = Object.keys(itemsTypesObj)
     .filter((key) => filterSelection[key])
     .flatMap((key) => itemsTypesObj[key][filterType + "s"])
     .filter((value, index, self) => self.indexOf(value) === index);
 
+  // handle the change of the selected filter option in garments
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
 
