@@ -117,9 +117,9 @@ To run the app locally, follow the steps below:
 4. Start the development server:
 
    ```
-   npm start
+   npm run dev
    ```
 
-   The app will be accessible at http://localhost:3000 in your web browser.
+   The app will be accessible at http://localhost:port in your web browser.
 
-5. Open your web browser and visit `http://localhost:3000` to access the Closet Builder application.
+5. Open your web browser and visit `http://localhost:port` to access the Closet Builder application.
