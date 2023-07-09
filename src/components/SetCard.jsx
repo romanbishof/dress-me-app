@@ -11,7 +11,7 @@ const SetCard = ({ set }) => {
   };
 
   return (
-    <div className="Container">
+    <div className="Container ">
       <div className="rounded-3xl drop-shadow-shadowCard ">
         <div className={`${styles.cardTop} pb-3 flex flex-col  items-center`}>
           <span className="inline-block text-4xl font-extrabold mt-2 opacity-30 ">

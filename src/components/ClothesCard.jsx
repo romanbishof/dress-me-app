@@ -16,11 +16,39 @@ const ClothesCard = ({ clothesItem, onItemSelected, suggestItems }) => {
 
   const handleSelectItem = (clothesItem) => {
     dispatch(filterGarmentsSelection(clothesItem));
-    dispatch(buildSet(clothesItem));
+    buildSetFunction(clothesItem);
     onItemSelected(clothesItem);
     suggestItems(clothesItem);
   };
 
+  const buildSetFunction = (clothesItem) => {
+    switch (clothesItem.type) {
+      case "shirt":
+        {
+          let setObj = JSON.parse(localStorage.getItem("set"));
+          setObj.shirt = clothesItem;
+          localStorage.setItem("set", JSON.stringify(setObj));
+        }
+        break;
+      case "pants":
+        {
+          let setObj = JSON.parse(localStorage.getItem("set"));
+          setObj.pants = clothesItem;
+          localStorage.setItem("set", JSON.stringify(setObj));
+        }
+        break;
+      case "shoes":
+        {
+          let setObj = JSON.parse(localStorage.getItem("set"));
+          setObj.shoes = clothesItem;
+          localStorage.setItem("set", JSON.stringify(setObj));
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
   useEffect(() => {
     switch (clothesItem.type) {
       case "shirt":
@@ -41,7 +69,7 @@ const ClothesCard = ({ clothesItem, onItemSelected, suggestItems }) => {
   });
 
   return (
-    <div className={`ClothesCard drop-shadow-shadowCard pb-4`}>
+    <div className={`ClothesCard drop-shadow-shadowCard pb-4 px-7`}>
       <div className="w-[230px]  bg-white m-auto relative overflow-hidden rounded-2xl shadow-none transform scale-95 transition-shadow transition-transform duration-500 sm:hover:scale-100 sm:hover:shadow-lg">
         <div className="w-full h-full">
           <div className={`${styles.cardTop} bg-none`}>

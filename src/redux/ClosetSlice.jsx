@@ -5,30 +5,28 @@ import { v4 as uuidv4 } from "uuid";
 export const getClosetDataAsync = createAsyncThunk(
   "closet/getClothesAsync",
   async () => {
-    const storedData = localStorage.getItem("closetData");
-    let res;
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      const currentData = localStorage.getItem("data");
-      if (currentData) {
-        const parsedCurrentData = JSON.parse(currentData);
+    let storedData = localStorage.getItem("closetData");
 
-        if (parsedCurrentData.length !== parsedData.length) {
-          return parsedCurrentData;
-        }
-      } else {
-        localStorage.setItem("data", JSON.stringify([]));
-        return parsedData;
+    if (storedData) {
+      try {
+        return JSON.parse(storedData);
+      } catch (error) {
+        console.error("Error parsing locally stored data:", error);
       }
-      // return parsedData;
-    } else {
-      res = await axios.get(
+    }
+
+    try {
+      const res = await axios.get(
         `https://run.mocky.io/v3/2d06d2c1-5a77-4ecd-843a-53247bcb0b94`
       );
-      const data = res.data;
+      const apiData = res.data;
+
       // Save initial data in local storage
-      localStorage.setItem("closetData", JSON.stringify(data));
-      return data;
+      localStorage.setItem("closetData", JSON.stringify(apiData));
+
+      return apiData;
+    } catch (error) {
+      console.error("Error fetching data from API:", error);
     }
   }
 );
@@ -189,128 +187,36 @@ const ClosetDataSlice = createSlice({
       state.selectedSize = action.payload;
     },
     buildSet: (state, action) => {
-      switch (action.payload.type) {
-        case "shirt":
-          {
-            state.set.shirt = action.payload;
-            let isSetBuild = checkEmptyObjects(state.set);
+      state.set = action.payload;
+      let date = getCurrentDate();
+      state.set["date"] = date;
+      state.set["id"] = uuidv4();
+      state.set["elapsedTime"] = elapsedTime(state.startTime);
 
-            if (isSetBuild) {
-              let date = getCurrentDate();
-              state.set["date"] = date;
-              state.set["id"] = uuidv4();
-              state.set["elapsedTime"] = elapsedTime(state.startTime);
+      state.data = deletClothesFromData(state.data, state.set);
 
-              state.data = deletClothesFromData(state.data, state.set);
+      state.shirts = countClothes(state.data, "shirt");
+      localStorage.setItem("shirt", JSON.stringify(state.shirts));
 
-              state.shirts = countClothes(state.data, "shirt");
-              localStorage.setItem("shirt", JSON.stringify(state.shirts));
+      state.pants = countClothes(state.data, "pants");
+      localStorage.setItem("pants", JSON.stringify(state.pants));
 
-              state.pants = countClothes(state.data, "pants");
-              localStorage.setItem("pants", JSON.stringify(state.pants));
+      state.shoes = countClothes(state.data, "shoes");
+      localStorage.setItem("shoes", JSON.stringify(state.shoes));
 
-              state.shoes = countClothes(state.data, "shoes");
-              localStorage.setItem("shoes", JSON.stringify(state.shoes));
-
-              state.sets = [...state.sets, state.set];
-              state.set = {
-                shirt: {},
-                pants: {},
-                shoes: {},
-              };
-              state.filterSelection = {
-                shoes: false,
-                shirt: false,
-                pants: false,
-              };
-              localStorage.setItem("data", JSON.stringify(state.data));
-
-              localStorage.setItem("sets", JSON.stringify(state.sets));
-            }
-          }
-          break;
-        case "pants":
-          {
-            state.set.pants = action.payload;
-            let isSetBuild = checkEmptyObjects(state.set);
-
-            if (isSetBuild) {
-              let date = getCurrentDate();
-              state.set["date"] = date;
-              state.set["id"] = uuidv4();
-              state.set["elapsedTime"] = elapsedTime(state.startTime);
-
-              state.data = deletClothesFromData(state.data, state.set);
-
-              state.shirts = countClothes(state.data, "shirt");
-              localStorage.setItem("shirt", JSON.stringify(state.shirts));
-
-              state.pants = countClothes(state.data, "pants");
-              localStorage.setItem("pants", JSON.stringify(state.pants));
-
-              state.shoes = countClothes(state.data, "shoes");
-              localStorage.setItem("shoes", JSON.stringify(state.shoes));
-
-              state.sets = [...state.sets, state.set];
-              state.set = {
-                shirt: {},
-                pants: {},
-                shoes: {},
-              };
-              state.filterSelection = {
-                shoes: false,
-                shirt: false,
-                pants: false,
-              };
-              localStorage.setItem("data", JSON.stringify(state.data));
-
-              localStorage.setItem("sets", JSON.stringify(state.sets));
-            }
-          }
-          break;
-        case "shoes":
-          {
-            state.set.shoes = action.payload;
-            let isSetBuild = checkEmptyObjects(state.set);
-
-            if (isSetBuild) {
-              let date = getCurrentDate();
-              state.set["date"] = date;
-              state.set["id"] = uuidv4();
-              state.set["elapsedTime"] = elapsedTime(state.startTime);
-
-              state.data = deletClothesFromData(state.data, state.set);
-
-              state.shirts = countClothes(state.data, "shirt");
-              localStorage.setItem("shirt", JSON.stringify(state.shirts));
-
-              state.pants = countClothes(state.data, "pants");
-              localStorage.setItem("pants", JSON.stringify(state.pants));
-
-              state.shoes = countClothes(state.data, "shoes");
-              localStorage.setItem("shoes", JSON.stringify(state.shoes));
-
-              state.sets = [...state.sets, state.set];
-              state.set = {
-                shirt: {},
-                pants: {},
-                shoes: {},
-              };
-              state.filterSelection = {
-                shoes: false,
-                shirt: false,
-                pants: false,
-              };
-              localStorage.setItem("data", JSON.stringify(state.data));
-
-              localStorage.setItem("sets", JSON.stringify(state.sets));
-            }
-          }
-          break;
-
-        default:
-          break;
-      }
+      state.sets = [...state.sets, state.set];
+      state.set = {
+        shirt: {},
+        pants: {},
+        shoes: {},
+      };
+      state.filterSelection = {
+        shoes: false,
+        shirt: false,
+        pants: false,
+      };
+      localStorage.setItem("closetData", JSON.stringify(state.data));
+      localStorage.setItem("sets", JSON.stringify(state.sets));
     },
     deleteSet: (state, action) => {
       state.data = [
@@ -332,11 +238,12 @@ const ClosetDataSlice = createSlice({
       localStorage.setItem("sets", JSON.stringify(state.sets));
     },
     filterGarmentsSelection: (state, action) => {
+      const setObj = JSON.parse(localStorage.getItem("set"));
       switch (action.payload.type) {
         case "shirt":
           {
             state.filterSelection.shirt = false;
-            if (Object.keys(state.set.pants).length === 0) {
+            if (Object.keys(setObj.pants).length === 0) {
               state.filterSelection.pants = true;
             } else {
               state.filterSelection.shoes = true;
@@ -346,9 +253,9 @@ const ClosetDataSlice = createSlice({
         case "pants":
           {
             state.filterSelection.pants = false;
-            if (Object.keys(state.set.shirt).length === 0) {
+            if (Object.keys(setObj.shirt).length === 0) {
               state.filterSelection.shirt = true;
-            } else if (Object.keys(state.set.shoes).length === 0) {
+            } else if (Object.keys(setObj.shoes).length === 0) {
               state.filterSelection.shoes = true;
             }
           }
@@ -356,9 +263,9 @@ const ClosetDataSlice = createSlice({
         case "shoes":
           {
             state.filterSelection.shoes = false;
-            if (Object.keys(state.set.pants).length === 0) {
+            if (Object.keys(setObj.pants).length === 0) {
               state.filterSelection.pants = true;
-            } else if (Object.keys(state.set.shirt).length === 0) {
+            } else if (Object.keys(setObj.shirt).length === 0) {
               state.filterSelection.shirt = true;
             }
           }
@@ -397,6 +304,14 @@ const ClosetDataSlice = createSlice({
       } else {
         state.sets = [];
         localStorage.setItem("sets", JSON.stringify([]));
+        localStorage.setItem(
+          "set",
+          JSON.stringify({
+            shirt: {},
+            pants: {},
+            shoes: {},
+          })
+        );
       }
     },
   },

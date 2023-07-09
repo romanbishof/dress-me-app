@@ -32,12 +32,12 @@ const Sidebar = () => {
       )}
 
       <div
-        className={`flex flex-col top-0 right-0 w-[25vw] bg-blue-600  p-10 pl-20 text-white fixed h-full z-40  ease-in-out duration-300 ${
+        className={`flex flex-col ss:items-start items-center  top-0 right-0 ss:w-[300px] w-full bg-blue-600 pl-5 pt-8 text-white fixed h-full z-40  ease-in-out duration-300 space-y-5 ${
           showSidebar ? "translate-x-0 " : "translate-x-full"
         }`}
       >
         <span
-          className="cursor-pointer"
+          className="p-2 w-[60%] mr-5 border rounded-2xl font-poppins cursor-pointer hover:opacity-70"
           onClick={() => {
             navigate("/");
             dispatch(returnHome());
@@ -46,7 +46,7 @@ const Sidebar = () => {
           Home
         </span>
         <span
-          className="cursor-pointer"
+          className="p-2 w-[60%] mr-5 border rounded-2xl font-poppins cursor-pointer hover:opacity-70"
           onClick={() => {
             navigate("/garments");
             dispatch(navigateToGarments());
@@ -55,20 +55,12 @@ const Sidebar = () => {
           Garmements
         </span>
         <span
-          className="cursor-pointer"
+          className="p-2 w-[60%] mr-5 border rounded-2xl font-poppins cursor-pointer hover:opacity-70"
           onClick={() => {
             navigate("/my_space");
           }}
         >
           My Space
-        </span>
-        <span
-          className="cursor-pointer"
-          onClick={() => {
-            navigate("/test-page");
-          }}
-        >
-          test page
         </span>
       </div>
     </>

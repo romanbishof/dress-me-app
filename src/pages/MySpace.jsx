@@ -13,10 +13,10 @@ const MySpace = () => {
   return (
     <div className="MySpace">
       <Header title={"My Space"} />
-      <div className="MySpace-body flex flex-row flex-wrap justify-center p-0">
+      <div className="MySpace-body flex flex-wrap justify-center p-0">
         {sets?.map((item) => {
           return (
-            <div className="MySpace-body__card mr-10" key={item.id + "q"}>
+            <div className="MySpace-body__card px-5" key={item.id + "q"}>
               <SetCard set={item} />
             </div>
           );

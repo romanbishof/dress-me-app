@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles";
 import Filtering from "../components/Filtering";
 import ClothesCard from "../components/ClothesCard";
 import { useNavigate } from "react-router-dom";
+import AlertSetBuild from "../components/AlertSetBuild";
+import SuccesSetBuild from "../components/SuccesSetBuild";
+import { buildSet } from "../redux/ClosetSlice";
 
 const Garments = () => {
   const {
@@ -18,24 +21,23 @@ const Garments = () => {
   } = useSelector((state) => state.ClosetData);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  //#region arrays local state variables
   const [filters, setFilters] = useState({
     shoes: filterSelection.shoes,
     shirt: filterSelection.shirt,
     pants: filterSelection.pants,
   });
-
   const [firstOptionSelected, setFirstOptionSelected] = useState(false);
-
-  //#region arrays
   const [shirtsArr, setShirtsArr] = useState(shirtsArray);
   const [pantsArr, setPantsArr] = useState(pantsArray);
   const [shoesArr, setShoesArr] = useState(shoesArray);
-
-  // #endregion
-
   const [selectedShirt, setSelectedShirt] = useState(filterSelection.shirt);
   const [selectedPants, setSelectedPants] = useState(filterSelection.pants);
   const [selectedShoes, setSelectedShoes] = useState(filterSelection.shoes);
+  const [succesMsg, setSuccesMsg] = useState(false);
+  // #endregion
 
   // Function to filter by size
   const filterBySize = (items) => {
@@ -57,17 +59,27 @@ const Garments = () => {
 
   const allFiltersUnchecked = Object.values(filters).every((value) => !value);
 
-  //#region useEffect scroll to begenning of page on page render and
+  //#region useEffect scroll to begenning of page on page render next page
   //upon select 3 item from each category go to next page
   useEffect(() => {
     window.scrollTo(0, 0);
     localStorage.setItem("startTime", JSON.stringify(new Date().getTime()));
+    localStorage.setItem(
+      "set",
+      JSON.stringify({
+        shirt: {},
+        pants: {},
+        shoes: {},
+      })
+    );
+    setSuccesMsg(false);
   }, []);
 
   useEffect(() => {
     if (selectedShirt && selectedPants && selectedShoes) {
       // All items are selected, trigger the redirection
-      navigate("/my_space");
+      setSuccesMsg(true);
+      dispatch(buildSet(JSON.parse(localStorage.getItem("set"))));
       localStorage.setItem("startTime", JSON.stringify(""));
     }
   }, [filterSelection.shirt, filterSelection.pants, filterSelection.shoes]);
@@ -109,6 +121,7 @@ const Garments = () => {
   const filterShoesByColor = filterByColor(filterShoesBySize);
   // #endregion
 
+  // algorithem to sugest clothes by size
   const handleSuggestItems = (selectedItem) => {
     // Determine the person's size category based on the selected item's size
     let sizeCategory;
@@ -164,6 +177,22 @@ const Garments = () => {
       }
       return false;
     });
+    //This part responsible for filterig the color by our rules
+    // but the lack of diverseti in colors and small data base makes it hard to build sets
+    // ===> not inoth items :P
+
+    // ?.filter((item) => {
+    //   if (selectedColor === "black" || selectedColor === "white") {
+    //     return true; // Allow any color for black or white selection
+    //   } else if (selectedColor === "pink") {
+    //     return item.color === "pink" || item.color === "green";
+    //   } else if (selectedColor === "green") {
+    //     return item.color === "green" || item.color === "pink" || item.color === "red";
+    //   } else if (selectedColor === "red") {
+    //     return item.color === "green" || item.color === "red";
+    //   }
+    //   return false;
+    // });
     setShirtsArr(suggestedItems.filter((item) => item.type === "shirt"));
     setPantsArr(suggestedItems.filter((item) => item.type === "pants"));
     setShoesArr(suggestedItems.filter((item) => item.type === "shoes"));
@@ -180,11 +209,12 @@ const Garments = () => {
 
           <Filtering filterType={"size"} />
         </div>
-        <div className="Garments-body__Card p-10">
-          {allFiltersUnchecked && !firstOptionSelected && (
-            <div className="Garments-showroom  flex flex-row flex-wrap justify-center ">
-              {data?.map((item) => (
-                <div className="Garments-body__showroom mr-10" key={item.id}>
+        {!succesMsg ? (
+          <div className="Garments-body__Card p-10 flex flex-row  flex-wrap items-center justify-center">
+            {allFiltersUnchecked &&
+              !firstOptionSelected &&
+              data?.map((item) => (
+                <div className="Garments-body__showroom " key={item.id}>
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
@@ -192,13 +222,10 @@ const Garments = () => {
                   />
                 </div>
               ))}
-            </div>
-          )}
 
-          {filterSelection.shirt && (
-            <div className="Garments-showroom flex flex-row flex-wrap justify-center ">
-              {filterShirtByColor.map((item) => (
-                <div className="Garments-body__showroom mr-10" key={item.id}>
+            {filterSelection.shirt &&
+              filterShirtByColor.map((item) => (
+                <div className="Garments-body__showroom " key={item.id}>
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
@@ -206,13 +233,10 @@ const Garments = () => {
                   />{" "}
                 </div>
               ))}
-            </div>
-          )}
 
-          {filterSelection.pants && (
-            <div className="Garments-showroom flex flex-row flex-wrap justify-center ">
-              {filterpantsByColor.map((item) => (
-                <div className="Garments-body__showroom mr-10" key={item.id}>
+            {filterSelection.pants &&
+              filterpantsByColor.map((item) => (
+                <div className="Garments-body__showroom " key={item.id}>
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
@@ -220,13 +244,10 @@ const Garments = () => {
                   />{" "}
                 </div>
               ))}
-            </div>
-          )}
 
-          {filterSelection.shoes && (
-            <div className="Garments-showroom flex flex-row flex-wrap  justify-center">
-              {filterShoesByColor.map((item) => (
-                <div className="Garments-body__showroom mr-10" key={item.id}>
+            {filterSelection.shoes &&
+              filterShoesByColor.map((item) => (
+                <div className="Garments-body__showroom " key={item.id}>
                   <ClothesCard
                     clothesItem={item}
                     onItemSelected={handleItemSelected}
@@ -234,9 +255,13 @@ const Garments = () => {
                   />{" "}
                 </div>
               ))}
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="mt-4">
+            {/* <AlertSetBuild /> */}
+            <SuccesSetBuild />
+          </div>
+        )}
       </div>
     </div>
   );
